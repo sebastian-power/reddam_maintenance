@@ -10,7 +10,7 @@ db = mysql.connector.connect(
     user="root",
     password=os.getenv("DB_PWD")
 )
-db.database = "spurs_are_shit"
+db.database = os.getenv("DB_NAME")
 
 cursor = db.cursor()
 cursor.execute("""
