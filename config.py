@@ -9,4 +9,6 @@ class Config:
 class DevConfig(Config):
     DEBUG = True
     TESTING = True
-
+class ProdConfig(Config):
+    # For production (running final product)
+    pass
