@@ -6,10 +6,13 @@
     - Admin notified whenever there is new job requirement
     - Admin can login when they get notification and check what the new jobs are (must be highlighted)
     - Admin looks at job and can assign it to certain people and those people will receive an email about the job assigned to them, and they can view that new job
+    - Can edit, remove, assign, or add jobs
 - Worker
+    - Worker gets email when new job and can self-assign
     - Worker must add status to job (not started, in process, or done)
 - Once job done, Admin confirms it is completed, and notification is sent to person who requested job to be done
 - Report section for admin for status of all jobs (must be able to sort on various fields like dates and users)
+- Email user when job done with notes from worker
 # Utilise Linux
 For web development, both Windows and Linux have their pros and cons, but **Linux is generally favoured** for several reasons:
 
