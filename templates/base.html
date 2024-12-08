@@ -9,9 +9,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="RHM" />
     <link rel="manifest" href="/static/images/site.webmanifest" />
-    <title> - Reddam Maintenance</title>
+    <title>{% block title %}{% endblock %} - Reddam Maintenance</title>
+    {% block style_headers %}{% endblock style_headers %}
 </head>
 <body>
-    
+{% block body %}{% endblock body %}
 </body>
 </html>
