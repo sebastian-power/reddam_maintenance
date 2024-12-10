@@ -62,14 +62,11 @@ form {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 50%;
     margin-bottom: 0.5em;
 }
 
 
-input {
-    height: 100%;
+.form-row input {
     border-radius: 2px;
     border: 1px solid #ccc;
     font-size: 0.7em;
@@ -95,11 +92,37 @@ input[type=text]:focus {
 #options {
     display: flex;
     justify-content: flex-start;
-    gap: 25px;
+    gap: 50px;
 }
 
-#options p {
+a {
     font-size: 0.8rem;
+    color: #0c66e4;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#show-password {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    justify-content: start;
+    width: 100%;
+    align-self: flex-start;
+    margin-bottom: 0.5em;
+}
+
+.form-row input[type="checkbox"] {
+    display: inline-block;
+    width: 16px;
+}
+
+#show-password label {
+    white-space: nowrap; /* Prevents text wrapping to keep it on a single line */
+    font-size: 12px; /* (Optional) Adjusts the font size if needed */
 }
 
 @media (max-width: 600px) {
