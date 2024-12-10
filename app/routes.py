@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect
+from .forms import LoginForm
 
 main_bp = Blueprint("main", __name__)
 
@@ -15,4 +16,9 @@ def login():
     Returns:
         str: The rendered html for the page
     """
-    return render_template("login.html")
+    form = LoginForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        password = form.password.data
+        print(name, password)
+    return render_template("login.html", form=form)

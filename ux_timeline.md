@@ -16,3 +16,9 @@
 2. No account, so click on Sign Up link
 3. Enter name, email, and password + make sign up request
 4. Brings to user dashboard (kanban board with status for their tasks (including if pending) and can add tasks with button)
+
+
+Development environment setup:
+- MySQL terminal
+- Project directory bash terminal
+- VSCode
