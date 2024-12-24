@@ -1,7 +1,5 @@
-from app import db
-
 class User:
-    def __init__(self, user_id, username, email, password, role):
+    def __init__(self, user_id=None, username=None, email=None, password=None, role=None):
         self.user_id = user_id
         self.username = username
         self.email = email
@@ -9,7 +7,7 @@ class User:
         self.role = role
 
 class Task:
-    def __init__(self, task_id, title, description, requested_by, status, assigned_to, created_at, due_by):
+    def __init__(self, task_id=None, title=None, description=None, requested_by=None, status=None, assigned_to=None, created_at=None, due_by=None):
         self.task_id = task_id
         self.title = title
         self.description = description
@@ -18,4 +16,3 @@ class Task:
         self.assigned_to = assigned_to
         self.created_at = created_at
         self.due_by = due_by
- 

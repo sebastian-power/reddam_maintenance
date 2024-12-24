@@ -46,6 +46,12 @@
         <label for="showpassword" style="font-size: 12px;">Show Password</label>
     </div>
 
+    {% if error %}
+    <div class="form-row">
+        <span style="color: red;">{{ error }}</span>
+    </div>
+    {% endif %}
+
     <div class="form-row">
         {{ form.submit() }}
     </div>
@@ -57,10 +63,8 @@
 
         function toggleRolePwdValidator() {
             if (roleField.value === "Admin") {
-                rolePwdField.setAttribute("required", "required");
                 rolePwdField.parentElement.style.display = "flex";
             } else {
-                rolePwdField.removeAttribute("required");
                 rolePwdField.parentElement.style.display = "none";
             }
         }

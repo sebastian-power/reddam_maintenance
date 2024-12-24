@@ -1,5 +1,5 @@
 import mysql.connector
-from models import *
+from .models import *
 import os
 
 def connect_db():
@@ -11,4 +11,12 @@ def connect_db():
             )
     return dbtemp, dbtemp.cursor()
 
-
+def add_user(user: User):
+    db, cursor = connect_db()
+    cursor.execute("""
+    INSERT INTO users(username, email, password, role)
+    VALUES(%s, %s, %s, %s)
+    """, (user.username, user.email, user.password, user.role))
+    db.commit()
+    cursor.close()
+    db.close()
