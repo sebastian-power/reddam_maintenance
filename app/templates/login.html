@@ -1,50 +1,47 @@
-{% extends "base.html" %}
+{% extends "auth_base.html" %}
 
 {% block title %}Log In{% endblock title %}
-{% block style_headers %}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/unauthenticated.css') }}">
-{% endblock style_headers %}
 
-{% block body %}
-<div class="login_box">
-    <div id="login-header">
-        <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}">
-        <h2>Reddam Maintenance System</h2>
+{% block form_content %}
+<p>Log in to continue</p>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <div class="form-row">
+        {{ form.email() }}
+        {% for error in form.email.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
     </div>
-    <p>Log in to continue</p>
-    <div id="login-form">
-        <form method="post">
-            {{ form.hidden_tag() }}
-            <div class="form-row">
-            {{ form.email() }}
-            {% for error in form.email.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-            </div>
 
-            <div class="form-row">
-            {{ form.password() }}
-            {% for error in form.password.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-            </div>
-            
-            <div id="show-password">
-                <input name="showpassword" type="checkbox" onclick="passwordVisibility()">
-                <label for="showpassword" style="font-size: 12px;">Show Password</label>
-            </div>
+    <div class="form-row">
+        {{ form.password() }}
+        {% for error in form.password.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+    
+    <div id="show-password">
+        <input name="showpassword" type="checkbox" onclick="passwordVisibility()">
+        <label for="showpassword" style="font-size: 12px;">Show Password</label>
+    </div>
 
-            <div class="form-row">
-            {{ form.submit() }}
-            </div>
-        </form>
+    <div class="form-row">
+        {{ form.submit() }}
     </div>
-    <div id="options">
-        <p><a href="/forgot_password">Forgot password?</a></p>
-        <p><a href="/signup">Don't have an account? Sign up</a></p>
-    </div>
-</div>
-{% endblock body %}
+</form>
+<script>
+    function passwordVisibility() {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
+{% endblock form_content %}
+
+{% block options %}
+<p><a href="/forgot_password">Forgot password?</a></p>
+<p><a href="/signup">Don't have an account? Sign up</a></p>
+{% endblock options %}

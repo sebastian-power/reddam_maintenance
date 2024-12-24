@@ -1,0 +1,76 @@
+{% extends "auth_base.html" %}
+
+{% block title %}Sign Up{% endblock title %}
+
+{% block form_content %}
+<p>Sign up to continue</p>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <div class="form-row">
+        {{ form.name() }}
+        {% for error in form.name.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-row">
+        {{ form.email() }}
+        {% for error in form.email.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-row">
+        {{ form.role() }}
+        {% for error in form.role.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-row">
+        {{ form.role_pwd() }}
+        {% for error in form.role_pwd.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-row">
+        {{ form.password() }}
+        {% for error in form.password.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div id="show-password">
+        <input name="showpassword" type="checkbox" onclick="passwordVisibility()">
+        <label for="showpassword" style="font-size: 12px;">Show Password</label>
+    </div>
+
+    <div class="form-row">
+        {{ form.submit() }}
+    </div>
+</form>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const roleField = document.getElementById("role");
+        const rolePwdField = document.getElementById("role_pwd");
+
+        function toggleRolePwdValidator() {
+            if (roleField.value === "Admin") {
+                rolePwdField.setAttribute("required", "required");
+                rolePwdField.parentElement.style.display = "flex";
+            } else {
+                rolePwdField.removeAttribute("required");
+                rolePwdField.parentElement.style.display = "none";
+            }
+        }
+
+        roleField.addEventListener("change", toggleRolePwdValidator);
+        toggleRolePwdValidator();
+    });
+</script>
+{% endblock form_content %}
+
+{% block options %}
+<p><a href="/login">Have an account? Log in</a></p>
+{% endblock options %}

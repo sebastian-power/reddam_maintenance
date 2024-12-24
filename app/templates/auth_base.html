@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block style_headers %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/unauthenticated.css') }}">
+{% endblock style_headers %}
+
+{% block body %}
+<div class="login_box">
+    <div id="login-header">
+        <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}">
+        <h2>Reddam Maintenance System</h2>
+    </div>
+    <div id="login-form">
+        {% block form_content %}{% endblock form_content %}
+    </div>
+    <div id="options">
+        {% block options %}{% endblock options %}
+    </div>
+</div>
+<script>
+    function passwordVisibility() {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
+{% endblock body %}

@@ -107,7 +107,7 @@ a:hover {
 
 #show-password {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 5px;
     justify-content: start;
     width: 100%;
@@ -123,6 +123,13 @@ a:hover {
 #show-password label {
     white-space: nowrap; /* Prevents text wrapping to keep it on a single line */
     font-size: 12px; /* (Optional) Adjusts the font size if needed */
+}
+
+select {
+    width: 100%;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 @media (max-width: 600px) {
