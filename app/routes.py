@@ -3,6 +3,7 @@ from app.forms import SignupForm, LoginForm
 from app.models import User
 from .queries import *
 import os
+import bcrypt
 
 main_bp = Blueprint("main", __name__)
 
@@ -36,13 +37,14 @@ def signup():
         email = form.email.data
         role = form.role.data
         role_pwd = form.role_pwd.data
-        password = form.password.data
+        hashed_password = bcrypt.hashpw(form.password.data.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+        print(hashed_password)
         if role == "Admin" and role_pwd != os.getenv("ROLE_PWD"):
             return render_template(
                 "signup.html", form=form, error="Role password is incorrect"
             )
-        # Signing up as Admin works but other user doesn't because form isn't "validated-on-submit" as the role password isn't filled in as it doesn't appear
-        add_user(User(username=name, email=email, role=role, password=password))
+        add_user(User(username=name, email=email, role=role, password=hashed_password))
+        # Make login request next
     return render_template("signup.html", form=form, error="")
 
 
