@@ -1,0 +1,61 @@
+body {
+    height: 100vh;
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+nav {
+    width: 15%;
+    background-color: #f4f6f9;
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.menu-item {
+    margin-left: 5px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.menu-item a {
+    text-decoration: none;
+    color: black;
+    font-size: 1.2em;
+}
+
+.menu-item img {
+    max-width: 1.2em;
+    height: auto;
+    margin-right: 10px;
+}
+
+#logo {
+    max-width: 30%;
+    height: auto;
+}
+
+.logo {
+    margin-bottom: 10px;
+}
+
+.settings, .general {
+    list-style: none;
+    padding: 0;
+}
+
+.settings {
+    margin-top: auto;
+}
+.navbar-divider {
+    border: none;
+    height: 2px;
+    background-color: #e0e0e0; /* Match your design */
+    margin: 0;
+}

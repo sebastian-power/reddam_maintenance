@@ -7,7 +7,8 @@ main_bp = Blueprint("main", __name__)
 def home_page():
     """Page looks different for everyone, redirects user to login/signup if cookies don't exist or are validated
     """
-    return redirect("/login")
+    return render_template("dashboard.html")
+    # return redirect("/login")
 
 @main_bp.route("/login")
 def login():
