@@ -19,7 +19,7 @@ def login():
     """
     form = LoginForm()
     if form.validate_on_submit():
-        name = form.name.data
+        name = form.email.data
         password = form.password.data
         print(name, password)
     return render_template("login.html", form=form)
@@ -28,11 +28,20 @@ def login():
 def signup():
     form = SignupForm()
     if form.validate_on_submit():
-        name = form.name
-        email = form.email
-        role = form.role
-        role_pwd = form.role_pwd
-        password = form.password
+        name = form.name.data
+        email = form.email.data
+        role = form.role.data
+        role_pwd = form.role_pwd.data
+        password = form.password.data
     return render_template("signup.html", form=form)
+
+@main_bp.route("/profile")
+def profile():
+    # For now just retrieve user data from db to prove that login worked correctly
+    return render_template("profile.html")
+
+@main_bp.route("/forgot_password")
+def forgot_password():
+    return "That's on you bud"
         
     

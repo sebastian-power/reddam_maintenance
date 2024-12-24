@@ -2,6 +2,14 @@ body {
     height: 100vh;
     margin: 0;
     font-family: "Roboto", sans-serif;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.content {
+    width: 85%;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 nav {
