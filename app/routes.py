@@ -5,6 +5,7 @@ from app.models import User
 from .queries import *
 import os
 import bcrypt
+from time import sleep
 
 main_bp = Blueprint("main", __name__)
 
@@ -70,7 +71,7 @@ def signup():
     return render_template("signup.html", form=form, error="")
 
 
-@main_bp.route("/profile")
+@main_bp.route("/profile", methods=("GET", "POST"))
 @login_required
 def profile():
     form = EditProfileForm()
@@ -78,9 +79,10 @@ def profile():
         name = form.name.data
         email = form.email.data
         if name != current_user.username:
-            update_profile(current_user.user_id, name)
+            update_profile(current_user.user_id, name=name)
         if email != current_user.email:
-            update_profile(current_user.user_id, email)
+            update_profile(current_user.user_id, email=email)
+        return redirect(url_for("main.profile"))
     return render_template("profile.html", form=form)
 
 

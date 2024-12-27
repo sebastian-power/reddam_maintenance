@@ -98,14 +98,18 @@ def update_profile(user_id: str, email: str = None, name: str = None):
         name (str): New name
     """
     db, cursor = connect_db()
+    print("Connected")
     if email:
         cursor.execute("""
         UPDATE users SET email = %s WHERE user_id = %s
         """, (email, int(user_id)))
+        print("email updated")
     if name:
         cursor.execute("""
-        UPDATE users SET name = %s WHERE user_id = %s
+        UPDATE users SET username = %s WHERE user_id = %s
         """, (name, int(user_id)))
+        print("name updated")
+    db.commit()
     cursor.close()
     db.close()
 

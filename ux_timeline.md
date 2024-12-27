@@ -29,3 +29,11 @@ Order of doing:
     - Email with link to change pwd
 2. Dashboard functionality
 3. Get james to install from instructions
+
+Change details logic flow
+Authorised:
+- Email: Send code to current email, brings to change_email
+- Password: Enter old password, brings to change_password
+
+Unauthorised:
+- Password: Send link to email, brings to change_password
