@@ -28,6 +28,9 @@
     <div class="form-row">
         {{ form.submit() }}
     </div>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
 </form>
 <script>
     function passwordVisibility() {

@@ -1,10 +1,17 @@
-class User:
+from flask_login import UserMixin
+
+class User(UserMixin):
     def __init__(self, user_id=None, username=None, email=None, password=None, role=None):
         self.user_id = user_id
         self.username = username
         self.email = email
         self.password = password
         self.role = role
+    def get_id(self):
+        return self.user_id
+    
+        
+    
 
 class Task:
     def __init__(self, task_id=None, title=None, description=None, requested_by=None, status=None, assigned_to=None, created_at=None, due_by=None):

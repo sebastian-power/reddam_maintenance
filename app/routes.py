@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, session, request, flash
 from app.forms import SignupForm, LoginForm
+from flask_login import login_required, login_user, logout_user, current_user
 from app.models import User
 from .queries import *
 import os
@@ -10,9 +11,7 @@ main_bp = Blueprint("main", __name__)
 
 @main_bp.route("/")
 def home_page():
-    """Page looks different for everyone, redirects user to login/signup if cookies don't exist or are validated"""
     return render_template("dashboard.html")
-    # return redirect("/login")
 
 
 @main_bp.route("/login", methods=("GET", "POST"))
@@ -23,10 +22,31 @@ def login():
         str: The rendered html for the page
     """
     form = LoginForm()
+    error = ""
+    if session.get('auto_login'):
+        print("auto_login")
+        session.pop('auto_login')
+
+        email = request.args.get('email')
+        password = request.args.get('password')
+        user = authenticate_user(email, password)
+        if user:
+            login_user(user, remember=True)
+            return redirect(url_for("main.home_page"))
+        else:
+            error = "Login failed. Return to login page"
+
     if form.validate_on_submit():
-        name = form.email.data
+        email = form.email.data
         password = form.password.data
-    return render_template("login.html", form=form)
+        user = authenticate_user(email, password)
+        if user:
+            login_user(user, remember=True)
+            return redirect(url_for("main.home_page"))
+        else:
+            error = "Invalid email or password. Try again."
+        
+    return render_template("login.html", form=form, error=error)
 
 
 @main_bp.route("/signup", methods=("GET", "POST"))
@@ -44,13 +64,14 @@ def signup():
                 "signup.html", form=form, error="Role password is incorrect"
             )
         add_user(User(username=name, email=email, role=role, password=hashed_password))
-        # Make login request next
+        session['auto_login'] = True
+        return redirect(url_for('main.login', email=email, password=form.password.data))
     return render_template("signup.html", form=form, error="")
 
 
 @main_bp.route("/profile")
 def profile():
-    # For now just retrieve user data from db to prove that login worked correctly
+    print(current_user.is_authenticated)
     return render_template("profile.html")
 
 

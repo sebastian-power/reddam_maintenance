@@ -2,4 +2,7 @@
 {% block title %}Profile{% endblock title %}
 {% block content %}
 <h1>Edit Profile</h1>
+{% if current_user %}
+<p>Name: {{ current_user.username }}
+{% endif %}
 {% endblock content %}

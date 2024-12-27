@@ -34,8 +34,9 @@ body {
 }
 
 #logo {
-    max-width: 10%;
+    max-width: 20%;
     height: auto;
+    object-fit: contain
 }
 
 
