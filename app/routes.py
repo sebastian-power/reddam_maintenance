@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, session, request, flash
-from app.forms import SignupForm, LoginForm
+from app.forms import SignupForm, LoginForm, EditProfileForm
 from flask_login import login_required, login_user, logout_user, current_user
 from app.models import User
 from .queries import *
@@ -10,6 +10,7 @@ main_bp = Blueprint("main", __name__)
 
 
 @main_bp.route("/")
+@login_required
 def home_page():
     return render_template("dashboard.html")
 
@@ -70,11 +71,20 @@ def signup():
 
 
 @main_bp.route("/profile")
+@login_required
 def profile():
-    print(current_user.is_authenticated)
-    return render_template("profile.html")
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        if name != current_user.username:
+            update_profile(current_user.user_id, name)
+        if email != current_user.email:
+            update_profile(current_user.user_id, email)
+    return render_template("profile.html", form=form)
 
 
 @main_bp.route("/forgot_password")
 def forgot_password():
-    return "That's on you bud"
+    # Include form to get email
+    return "Link sent to email to change password"

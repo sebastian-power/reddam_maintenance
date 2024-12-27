@@ -18,3 +18,12 @@ class SignupForm(FlaskForm):
     role_pwd = PasswordField("Role Password", validators=[validate_role_pwd], render_kw={"placeholder": "Enter the role password"})
     password = PasswordField("Password", validators=[DataRequired(message="This field is required")], render_kw={"placeholder": "Enter your password"})
     submit = SubmitField("Create an account")
+
+class EditProfileForm(FlaskForm):
+     name = StringField("Name", validators=[DataRequired(message="This field is required"), Length(max=100)])
+     email = EmailField("Email", validators=[DataRequired(message="This field is required"), Email(message="Please enter a valid email"), Length(max=100)])
+     submit = SubmitField("Save")
+
+class ChangePasswordForm(FlaskForm):
+    newpwd = PasswordField("Password", validators=[DataRequired(message="This field is required")], render_kw={"placeholder": "Enter your new password"})
+    submit = SubmitField("Confirm")

@@ -90,4 +90,23 @@ def authenticate_user(email: str, password: str) -> User:
     user = find_user_by_email(email)
     return user if user and bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8")) else None
 
+def update_profile(user_id: str, email: str = None, name: str = None):
+    """Updates name and email of user (for form in profile)
+
+    Args:
+        email (str): New email
+        name (str): New name
+    """
+    db, cursor = connect_db()
+    if email:
+        cursor.execute("""
+        UPDATE users SET email = %s WHERE user_id = %s
+        """, (email, int(user_id)))
+    if name:
+        cursor.execute("""
+        UPDATE users SET name = %s WHERE user_id = %s
+        """, (name, int(user_id)))
+    cursor.close()
+    db.close()
+
 

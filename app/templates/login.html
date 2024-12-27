@@ -32,16 +32,6 @@
         <p>{{ error }}</p>
     {% endif %}
 </form>
-<script>
-    function passwordVisibility() {
-        var x = document.getElementById("password");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
-        }
-    }
-</script>
 {% endblock form_content %}
 
 {% block options %}

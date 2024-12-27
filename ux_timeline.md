@@ -22,3 +22,10 @@ Development environment setup:
 - MySQL terminal
 - Project directory bash terminal
 - VSCode
+
+Order of doing:
+1. Profile page funcitonality
+    - Change name and email form
+    - Email with link to change pwd
+2. Dashboard functionality
+3. Get james to install from instructions
