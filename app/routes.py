@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template, redirect, url_for, session, request, flash
-from app.forms import SignupForm, LoginForm, EditProfileForm
+from app.forms import SignupForm, LoginForm, EditProfileForm, ChangePasswordForm, ForgotPasswordForm
 from flask_login import login_required, login_user, logout_user, current_user
 from app.models import User
 from .queries import *
 import os
 import bcrypt
-from time import sleep
+import base64
 
 main_bp = Blueprint("main", __name__)
 
@@ -60,7 +60,6 @@ def signup():
         role = form.role.data
         role_pwd = form.role_pwd.data
         hashed_password = bcrypt.hashpw(form.password.data.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-        print(hashed_password)
         if role == "Admin" and role_pwd != os.getenv("ROLE_PWD"):
             return render_template(
                 "signup.html", form=form, error="Role password is incorrect"
@@ -88,5 +87,30 @@ def profile():
 
 @main_bp.route("/forgot_password")
 def forgot_password():
-    # Include form to get email
-    return "Link sent to email to change password"
+    form = ForgotPasswordForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        token = base64.urlsafe_b64encode(os.urandom(24)).decode("utf-8")
+        # Send email to email with link that brings user to change_pwd_unath route with token in request to authorise pwd change
+    return render_template("forgot_pwd.html", form=form)
+
+@main_bp.route("/change_pwd_unauth", methods=("GET", "POST"))
+def change_pwd_unauth():
+    token = request.args.get("utkn")
+    if token:
+        print("token")
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        newpwd = form.password.data
+        return redirect(url_for("main.login"))
+    return render_template("change_password.html", form=form)
+
+@main_bp.route("/change_pwd_auth", methods=("GET", "POST"))
+def change_pwd_auth():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.hashpw(form.password.data.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+        update_profile(current_user.user_id, password=hashed_password)
+        return redirect(url_for("main.profile"))
+    return render_template("change_password.html", form=form)
+

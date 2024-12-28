@@ -25,5 +25,9 @@ class EditProfileForm(FlaskForm):
      submit = SubmitField("Save")
 
 class ChangePasswordForm(FlaskForm):
-    newpwd = PasswordField("Password", validators=[DataRequired(message="This field is required")], render_kw={"placeholder": "Enter your new password"})
+    password = PasswordField("Password", validators=[DataRequired(message="This field is required")], render_kw={"placeholder": "Enter your new password"})
     submit = SubmitField("Confirm")
+
+class ForgotPasswordForm(FlaskForm):
+     email = EmailField("Email", validators=[Email(message="Please enter a valid email")], render_kw={"placeholder": "Enter your email"})
+     submit = SubmitField("Send Link")
