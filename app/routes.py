@@ -85,7 +85,7 @@ def profile():
     return render_template("profile.html", form=form)
 
 
-@main_bp.route("/forgot_password")
+@main_bp.route("/forgot_password", methods=("GET", "POST"))
 def forgot_password():
     form = ForgotPasswordForm()
     if form.validate_on_submit():
@@ -106,6 +106,7 @@ def change_pwd_unauth():
     return render_template("change_password.html", form=form)
 
 @main_bp.route("/change_pwd_auth", methods=("GET", "POST"))
+@login_required
 def change_pwd_auth():
     form = ChangePasswordForm()
     if form.validate_on_submit():

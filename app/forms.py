@@ -30,4 +30,4 @@ class ChangePasswordForm(FlaskForm):
 
 class ForgotPasswordForm(FlaskForm):
      email = EmailField("Email", validators=[Email(message="Please enter a valid email")], render_kw={"placeholder": "Enter your email"})
-     submit = SubmitField("Send Link")
+     submit = SubmitField("Send Password Reset Link")
