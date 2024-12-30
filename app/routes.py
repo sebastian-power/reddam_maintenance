@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, session, request, flash
-from app.forms import SignupForm, LoginForm, EditProfileForm, ChangePasswordForm, ForgotPasswordForm
+from app.forms import SignupForm, LoginForm, EditProfileForm, ChangePasswordForm, ForgotPasswordForm, AddTaskForm
 from flask_login import login_required, login_user, logout_user, current_user
 from app.models import User
 from .queries import *
@@ -13,7 +13,13 @@ main_bp = Blueprint("main", __name__)
 @main_bp.route("/")
 @login_required
 def home_page():
-    return render_template("dashboard.html")
+    form = AddTaskForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        description = form.description.data
+        due_by = form.due_by.data
+
+    return render_template("admin.html", form=form)
 
 
 @main_bp.route("/login", methods=("GET", "POST"))

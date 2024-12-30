@@ -1,0 +1,73 @@
+{% extends "base_authenticated.html" %}
+{% block title %}Dashboard{% endblock title %}
+{% block style_headers %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/authenticated.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock style_headers %}
+{% block content %}
+<div class="dashboard-content">
+    {% block pending %}{% endblock pending %}
+    <div class="dashboard-section" id="dashboard-section-not-started">
+        <div class="section-header">
+            <h2>Not started</h2>
+        </div>
+        <div class="section-content">
+            <div class="task-content">
+                
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-section" id="dashboard-section-in-progress">
+        <div class="section-header">
+            <h2>In progress</h2>
+        </div>
+        <div class="section-content">
+            <div class="task-content">
+                
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-section" id="dashboard-section-done">
+        <div class="section-header">
+            <h2>Done</h2>
+        </div>
+        <div class="section-content">
+            <div class="task-content">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<button id="add-task" onclick="addTaskPrompt()"><p style="display: inline; vertical-align: middle;">Add Task</p><span id="plus-sign"> +</span></button>
+{% block script %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock script %}
+{% endblock content %}
+{% block addTask %}
+<div id="overlay"></div>
+<div id="add-task-prompt">
+    <div class="prompt-header">
+        <h2>Create New Task</h2>
+        <button id="exit" onclick="exitPrompt()">x</button>
+    </div>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <p>{{ form.title.label }}<span style="color: red"> *</span></p>
+        {{ form.title() }}
+        {% for error in form.title.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+        <p>{{ form.due_by.label }}</p>
+        {{ form.due_by() }}
+        {% for error in form.due_by.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+        <p>{{ form.description.label }}</p>
+        {{ form.description() }}
+        {% for error in form.description.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+        {{ form.submit() }}
+    </form>
+</div>
+{% endblock addTask %}

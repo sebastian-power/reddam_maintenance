@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, EmailField, PasswordField, StringField, SelectField
+from wtforms import SubmitField, EmailField, PasswordField, StringField, SelectField, DateField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, ValidationError
 
 def validate_role_pwd(form, field):
@@ -31,3 +31,9 @@ class ChangePasswordForm(FlaskForm):
 class ForgotPasswordForm(FlaskForm):
      email = EmailField("Email", validators=[Email(message="Please enter a valid email")], render_kw={"placeholder": "Enter your email"})
      submit = SubmitField("Send Password Reset Link")
+
+class AddTaskForm(FlaskForm):
+     title = StringField("Title", validators=[DataRequired(message="This field is required"), Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task title"})
+     due_by = DateField("To be completed by", validators=[Length(max=255, message="Title cannot be longer than 255 characters")])
+     description = TextAreaField("Task Details", validators=[Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task description"})
+     submit = SubmitField("Create Task")
