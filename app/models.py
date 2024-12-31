@@ -14,7 +14,7 @@ class User(UserMixin):
     
 
 class Task:
-    def __init__(self, task_id=None, title=None, description=None, requested_by=None, status=None, assigned_to=None, created_at=None, due_by=None):
+    def __init__(self, task_id: int = None, title: str =None, description: str =None, requested_by: int =None, status: str = None, assigned_to: int = None, created_at: str = None, due_by: str = None):
         self.task_id = task_id
         self.title = title
         self.description = description

@@ -2,6 +2,7 @@ import mysql.connector
 from .models import *
 import os
 import bcrypt
+from datetime import datetime
 
 
 def connect_db():
@@ -111,6 +112,22 @@ def update_profile(user_id: str, email: str = None, name: str = None, password: 
         cursor.execute("""
         UPDATE users SET password = %s WHERE user_id = %s
         """, (password, int(user_id)))
+    db.commit()
+    cursor.close()
+    db.close()
+
+def add_task(task: Task):
+    db, cursor = connect_db()
+    if task.due_by:
+        cursor.execute(f"""
+        INSERT INTO tasks(title, description, requested_by, status, created_at, due_by)
+        VALUES(%s, %s, %s, %s, %s, %s)
+        """, (task.title, task.description, task.requested_by, task.status, task.created_at, task.due_by))
+    else:
+        cursor.execute(f"""
+        INSERT INTO tasks(title, description, requested_by, status, created_at)
+        VALUES(%s, %s, %s, %s, %s)
+        """, (task.title, task.description, task.requested_by, task.status, task.created_at))
     db.commit()
     cursor.close()
     db.close()

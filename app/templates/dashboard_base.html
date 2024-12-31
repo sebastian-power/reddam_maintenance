@@ -6,7 +6,16 @@
 {% endblock style_headers %}
 {% block content %}
 <div class="dashboard-content">
-    {% block pending %}{% endblock pending %}
+    <div class="dashboard-section" id="dashboard-section-pending">
+        <div class="section-header">
+            <h2>Pending</h2>
+        </div>
+        <div class="section-content">
+            <div class="task-content">
+    
+            </div>
+        </div>
+    </div>
     <div class="dashboard-section" id="dashboard-section-not-started">
         <div class="section-header">
             <h2>Not started</h2>
@@ -39,9 +48,7 @@
     </div>
 </div>
 <button id="add-task" onclick="addTaskPrompt()"><p style="display: inline; vertical-align: middle;">Add Task</p><span id="plus-sign"> +</span></button>
-{% block script %}
-<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-{% endblock script %}
+{% block script %}{% endblock script %}
 {% endblock content %}
 {% block addTask %}
 <div id="overlay"></div>

@@ -31,10 +31,9 @@ Order of doing:
 Use icon library x icon instead of letter x for add task popup
 3. Get james to install from instructions
 
-Change details logic flow
-Authorised:
-- Password: Enter old password, brings to change_password
+Dashboard permissions:
+Every user sees sections
 
-Unauthorised:
-- Password: Send link to email, brings to change_password
-
+Admin: Pending (click on task and assign), not started (drag), in progress (drag), done (drag and change autodelete)
+Workers: Pending (click on task and self-assign), not started (drag own, see others), in progress (drag own, see others), done (drag own, see others)
+Members: See all sections

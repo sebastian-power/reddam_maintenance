@@ -6,19 +6,25 @@ from .queries import *
 import os
 import bcrypt
 import base64
+from datetime import datetime
 
 main_bp = Blueprint("main", __name__)
 
 
-@main_bp.route("/")
+@main_bp.route("/", methods=("GET", "POST"))
 @login_required
 def home_page():
     form = AddTaskForm()
     if form.validate_on_submit():
         title = form.title.data
         description = form.description.data
+        requested_by = current_user.user_id
+        status = "Pending"
+        created_at = datetime.now().strftime("%Y:%m:%d %H:%M:%S")
         due_by = form.due_by.data
-
+        new_task = Task(title=title, description=description, requested_by=requested_by, status=status, created_at=created_at, due_by=due_by)
+        add_task(new_task)
+        return redirect(url_for('main.home_page'))
     return render_template("admin.html", form=form)
 
 

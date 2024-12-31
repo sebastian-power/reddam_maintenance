@@ -1,13 +1,5 @@
 {% extends "dashboard_base.html" %}
-{% block pending%}
-<div class="dashboard-section" id="dashboard-section-pending">
-    <div class="section-header">
-        <h2>Pending</h2>
-    </div>
-    <div class="section-content">
-        <div class="task-content">
-
-        </div>
-    </div>
-</div>
-{% endblock pending %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock script %}
