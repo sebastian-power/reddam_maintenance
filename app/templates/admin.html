@@ -3,3 +3,19 @@
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
 {% endblock script %}
+{% block pending %}
+{% for task in tasks['Pending'] %}
+    <div class="task-content">
+        <h2 class="task-title">{{ task.title }}</h2>
+        <div class="description">
+            <p>{{ task.description }}</p>
+        </div>
+        <div class="due-date">
+            <p>{{ task.due_by_str }}</p>
+        </div>
+        <div class="created-by">
+            <p>{{ task.requested_by_name }}</p>
+        </div>
+    </div>
+{% endfor %}
+{% endblock pending%}

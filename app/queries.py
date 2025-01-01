@@ -70,10 +70,12 @@ def find_user_by_id(search_string: str) -> User:
         User: The user object with the same id
     """
     db, cursor = connect_db()
+    print(search_string)
     cursor.execute("""
     SELECT * FROM users WHERE user_id = %s
     """, (int(search_string),))
     user = cursor.fetchone()
+    print(user)
     cursor.close()
     db.close()
     return User(user[0], user[1], user[2], user[3], user[4]) if user else None
@@ -132,4 +134,18 @@ def add_task(task: Task):
     cursor.close()
     db.close()
 
+def retrieve_tasks() -> dict:
+    db, cursor = connect_db()
+    status_list = ["Pending", "Not Started", "In Progress", "Done"]
+    tasks = {}
+    for status in status_list:
+        cursor.execute(f"""
+        SELECT * FROM tasks WHERE status = %s
+        """, (status,))
+        task_list_list = cursor.fetchall()
+        if task_list_list:
+            tasks[status] = [Task(task_id=task_list[0], title=task_list[1], description=task_list[2], requested_by_name=find_user_by_id(str(task_list[3])).username, status=task_list[4], assigned_to=task_list[5], created_at=task_list[6], due_by=task_list[7]) for task_list in task_list_list]
+    cursor.close()
+    db.close()
+    return tasks if tasks != {} else None
 

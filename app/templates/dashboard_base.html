@@ -5,15 +5,14 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 {% endblock style_headers %}
 {% block content %}
+<h1>Dashboard</h1>
 <div class="dashboard-content">
     <div class="dashboard-section" id="dashboard-section-pending">
         <div class="section-header">
             <h2>Pending</h2>
         </div>
         <div class="section-content">
-            <div class="task-content">
-    
-            </div>
+            {% block pending %}{% endblock pending %}
         </div>
     </div>
     <div class="dashboard-section" id="dashboard-section-not-started">
@@ -21,9 +20,7 @@
             <h2>Not started</h2>
         </div>
         <div class="section-content">
-            <div class="task-content">
-                
-            </div>
+            {% block notstarted %}{% endblock notstarted %}
         </div>
     </div>
     <div class="dashboard-section" id="dashboard-section-in-progress">
@@ -31,9 +28,7 @@
             <h2>In progress</h2>
         </div>
         <div class="section-content">
-            <div class="task-content">
-                
-            </div>
+            {% block inprogress %}{% endblock inprogress %}
         </div>
     </div>
     <div class="dashboard-section" id="dashboard-section-done">
@@ -41,9 +36,7 @@
             <h2>Done</h2>
         </div>
         <div class="section-content">
-            <div class="task-content">
-                
-            </div>
+            {% block done %}{% endblock done %}
         </div>
     </div>
 </div>
@@ -51,7 +44,7 @@
 {% block script %}{% endblock script %}
 {% endblock content %}
 {% block addTask %}
-<div id="overlay"></div>
+<div id="overlay" onclick="exitPrompt()"></div>
 <div id="add-task-prompt">
     <div class="prompt-header">
         <h2>Create New Task</h2>

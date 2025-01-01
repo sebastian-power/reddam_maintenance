@@ -1,27 +1,51 @@
 .content {
-    background-color: rgba(128, 128, 128, 0.183);
+    background-color: rgba(233, 233, 233, 0.553);
 }
 
 .dashboard-content {
     display: flex;
 }
 
+h1 {
+    margin-bottom: 3em;
+}
+
 .dashboard-section {
     box-sizing: border-box;
     width: 33.3%;
-    background-color: white;
-    margin: 7px;
+    margin: 0.2em;
     border-radius: 3px;
+    background-color: rgba(128, 128, 128, 0.12);
 }
 
-h2 {
-    font-size: 1.3em;
+.section-header h2 {
+    font-size: 1.5em;
+    margin-top: 0.3em;
+}
+
+.task-content {
+    background-color: white;
+    margin: 5px 1px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    border: rgba(128, 128, 128, 0.436) 1.5px solid;
+    padding: 0.5em;
+    cursor: pointer;
+}
+
+.task-content h2 {
+    font-size: 0.88em;
+    margin: 0;
+}
+
+.task-content p {
+    font-size: 0.85em;
+    margin: 0;
 }
 
 .section-header {
-    display: flex;
-    justify-content: center;
     align-items: center;
+    padding-left: 5px;
     border-width: 100%;
 }
 
@@ -29,16 +53,48 @@ h2 {
     border-top: lightblue 4px solid;
 }
 
+#dashboard-section-pending .task-content {
+    border-top: lightblue 4px solid;
+}
+
+#dashboard-section-pending .task-content:hover {
+    background-color: rgba(173, 216, 230, 0.3);
+}
+
 #dashboard-section-not-started {
     border-top: #df6f84c7 4px solid;
+}
+
+#dashboard-section-not-started .task-content {
+    border-top: #df6f84c7 4px solid;
+}
+
+#dashboard-section-not-started .task-content:hover {
+    background-color: rgba(223, 111, 132, 0.234);
 }
 
 #dashboard-section-in-progress {
     border-top: #F2D0A9 4px solid;
 }
 
+#dashboard-section-in-progress .task-content {
+    border-top: #F2D0A9 4px solid;
+}
+
+#dashboard-section-in-progress .task-content:hover {
+    background-color: rgba(242, 208, 169, 0.3);
+}
+
 #dashboard-section-done {
     border-top: rgb(82, 237, 82) 4px solid;
+}
+
+#dashboard-section-done .task-content {
+    border-top: rgb(82, 237, 82) 4px solid;
+}
+
+#dashboard-section-done .task-content:hover {
+    background-color: rgb(82, 237, 82, 0.3);
 }
 
 .section-header-color {

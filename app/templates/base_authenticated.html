@@ -10,12 +10,12 @@
     </div>
     <hr class="navbar-divider">
     <ul class="general">
-        <li class="menu-item"><img src="{{ url_for('static', filename='images/dash.png') }}"><a href="/">Dashboard</a></li>
+        <li class="menu-item"><i class="fa-solid fa-gauge" style="color: #ababab;"></i><a href="/">Dashboard</a></li>
         {% block navbar %}{% endblock navbar %}
     </ul>
     <ul class="settings">
-        <li class="menu-item"><img src="{{ url_for('static', filename='images/profile.png') }}"><a href="/profile">Profile</a></li>
-        <li class="menu-item"><img src="{{ url_for('static', filename='images/logout.png') }}"><a id="logout" href="/logout">Log Out</a></li>
+        <li class="menu-item"><i class="fa-solid fa-circle-user" style="color: #ababab;"></i><a href="/profile">Profile</a></li>
+        <li class="menu-item"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #ababab;"></i><a id="logout" href="/logout">Log Out</a></li>
     </ul>
     <hr class="navbar-divider">
 </nav>
