@@ -26,7 +26,7 @@ def home_page():
         new_task = Task(title=title, description=description, requested_by=requested_by, status=status, created_at=created_at, due_by=due_by)
         add_task(new_task)
         return redirect(url_for('main.home_page'))
-    return render_template("admin.html", form=form, tasks=retrieve_tasks())
+    return render_template("admin.html", form=form)
 
 
 @main_bp.route("/login", methods=("GET", "POST"))
@@ -136,4 +136,12 @@ def get_task():
     decoded_value = int(int(''.join([str(alphabet.index(char.lower())) for char in encoded_value]))/13087137435673)
     task = find_task_by_id(decoded_value).__dict__
     return jsonify(task)
+
+@main_bp.route("/get_tasks_sorted", methods=("POST",))
+def get_tasks_sorted():
+    data = request.get_json()
+    sort_method = data.get("sort_method")
+    tasks = retrieve_tasks(sort_by=sort_method)
+    return jsonify({"tasks": tasks})
+
 

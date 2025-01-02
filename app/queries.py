@@ -134,17 +134,17 @@ def add_task(task: Task):
     cursor.close()
     db.close()
 
-def retrieve_tasks(sort_by: str = "created_at") -> dict:
+def retrieve_tasks(sort_by: str = "due_by") -> dict:
     db, cursor = connect_db()
     status_list = ["Pending", "Not Started", "In Progress", "Done"]
     tasks = {}
     for status in status_list:
         cursor.execute(f"""
-        SELECT task_id, title, description, requested_by, due_by FROM tasks WHERE status = %s ORDER BY %s {"DESC" if sort_by in ["created_at"] else None}
+        SELECT task_id, title, description, requested_by, due_by FROM tasks WHERE status = %s ORDER BY %s{" DESC" if sort_by in ["created_at"] else ""}
         """, (status,sort_by))
         task_list_list = cursor.fetchall()
         if task_list_list:
-            tasks[status] = [Task(task_id=task_list[0], title=task_list[1], description=task_list[2], requested_by_name=find_user_by_id(str(task_list[3])).username, due_by=task_list[4]) for task_list in task_list_list]
+            tasks[status] = [Task(task_id=task_list[0], title=task_list[1], description=task_list[2], requested_by_name=find_user_by_id(str(task_list[3])).username, due_by=task_list[4]).__dict__ for task_list in task_list_list]
     cursor.close()
     db.close()
     return tasks if tasks != {} else None

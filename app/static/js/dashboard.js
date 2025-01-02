@@ -19,5 +19,3 @@ async function showTask(task_id_encrypted) {
     const data = await response.json();
     console.log(data.title)
 }
-
-// function tasksByName
