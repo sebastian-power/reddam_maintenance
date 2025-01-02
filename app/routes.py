@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, session, request, flash
+from flask import Blueprint, render_template, redirect, url_for, session, request, jsonify
 from app.forms import SignupForm, LoginForm, EditProfileForm, ChangePasswordForm, ForgotPasswordForm, AddTaskForm
 from flask_login import login_required, login_user, logout_user, current_user
 from app.models import User
@@ -7,6 +7,7 @@ import os
 import bcrypt
 import base64
 from datetime import datetime
+import json
 
 main_bp = Blueprint("main", __name__)
 
@@ -126,4 +127,13 @@ def change_pwd_auth():
         update_profile(current_user.user_id, password=hashed_password)
         return redirect(url_for("main.profile"))
     return render_template("change_password.html", form=form)
+
+@main_bp.route("/get_task", methods=("POST",))
+def get_task():
+    data = request.get_json()
+    alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    encoded_value = data.get("encoded_value")
+    decoded_value = int(int(''.join([str(alphabet.index(char.lower())) for char in encoded_value]))/13087137435673)
+    task = find_task_by_id(decoded_value).__dict__
+    return jsonify(task)
 

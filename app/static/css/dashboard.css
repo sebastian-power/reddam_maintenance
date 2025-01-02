@@ -27,7 +27,7 @@ h1 {
     background-color: white;
     margin: 5px 1px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    border-radius: 7px;
     border: rgba(128, 128, 128, 0.436) 1.5px solid;
     padding: 0.5em;
     cursor: pointer;
