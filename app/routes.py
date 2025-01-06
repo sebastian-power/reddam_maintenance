@@ -3,6 +3,7 @@ from app.forms import SignupForm, LoginForm, EditProfileForm, ChangePasswordForm
 from flask_login import login_required, login_user, logout_user, current_user
 from app.models import User
 from .queries import *
+from .emails import *
 import os
 import bcrypt
 import base64
@@ -100,31 +101,45 @@ def profile():
 
 @main_bp.route("/forgot_password", methods=("GET", "POST"))
 def forgot_password():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.home_page"))
     form = ForgotPasswordForm()
     if form.validate_on_submit():
         email = form.email.data
-        token = base64.urlsafe_b64encode(os.urandom(24)).decode("utf-8")
-        # Send email to email with link that brings user to change_pwd_unath route with token in request to authorise pwd change
+        if find_user_by_email(email):
+            token = send_forgot_pwd_email(email)
+            add_token_to_db(email, token)
+            return "Email with reset link sent"
+        else:
+            return "Account with email does not exist"
+        
     return render_template("forgot_pwd.html", form=form)
 
 @main_bp.route("/change_pwd_unauth", methods=("GET", "POST"))
 def change_pwd_unauth():
-    token = request.args.get("utkn")
-    if token:
-        print("token")
     form = ChangePasswordForm()
+    token = request.args.get("utkn")
+    session["token"] = token
+    email_for_token = find_token_in_db(token)
     if form.validate_on_submit():
         newpwd = form.password.data
+        session["token"] = token
+        email_for_token = find_token_in_db(token)
+        if email_for_token:
+            update_profile(find_user_by_email(email_for_token).user_id, password=newpwd)
         return redirect(url_for("main.login"))
-    return render_template("change_password.html", form=form)
+    if email_for_token:
+        return render_template("change_password.html", form=form)
+    else:
+        return "Invalid token"
 
 @main_bp.route("/change_pwd_auth", methods=("GET", "POST"))
 @login_required
 def change_pwd_auth():
     form = ChangePasswordForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.hashpw(form.password.data.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-        update_profile(current_user.user_id, password=hashed_password)
+        password = form.password.data
+        update_profile(current_user.user_id, password=password)
         return redirect(url_for("main.profile"))
     return render_template("change_password.html", form=form)
 

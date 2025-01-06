@@ -28,14 +28,22 @@ cursor.execute("""
 CREATE TABLE IF NOT EXISTS tasks(
     task_id SMALLINT AUTO_INCREMENT PRIMARY KEY,
     title TINYTEXT NOT NULL,
-    description TEXT,
+    description TINYTEXT,
     requested_by SMALLINT,
-    status ENUM('Not Started', 'In Progress', 'Done') NOT NULL,
+    status ENUM('Pending','Not Started','In Progress','Done') NOT NULL,
     assigned_to SMALLINT,
     created_at DATETIME NOT NULL,
-    due_by DATETIME NOT NULL,
+    due_by DATETIME,
     FOREIGN KEY (requested_by) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE,
     FOREIGN KEY (assigned_to) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE
+);
+""")
+cursor.close()
+cursor = db.cursor()
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS tokens(
+    token VARCHAR(70) PRIMARY KEY,
+    email VARCHAR(100)
 );
 """)
 db.commit()

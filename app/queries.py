@@ -70,12 +70,10 @@ def find_user_by_id(search_string: str) -> User:
         User: The user object with the same id
     """
     db, cursor = connect_db()
-    print(search_string)
     cursor.execute("""
     SELECT * FROM users WHERE user_id = %s
     """, (int(search_string),))
     user = cursor.fetchone()
-    print(user)
     cursor.close()
     db.close()
     return User(user[0], user[1], user[2], user[3], user[4]) if user else None
@@ -101,7 +99,6 @@ def update_profile(user_id: str, email: str = None, name: str = None, password: 
         name (str): New name
     """
     db, cursor = connect_db()
-    print("Connected")
     if email:
         cursor.execute("""
         UPDATE users SET email = %s WHERE user_id = %s
@@ -111,9 +108,10 @@ def update_profile(user_id: str, email: str = None, name: str = None, password: 
         UPDATE users SET username = %s WHERE user_id = %s
         """, (name, int(user_id)))
     if password:
+        password_hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
         cursor.execute("""
         UPDATE users SET password = %s WHERE user_id = %s
-        """, (password, int(user_id)))
+        """, (password_hashed, int(user_id)))
     db.commit()
     cursor.close()
     db.close()
@@ -158,3 +156,32 @@ def find_task_by_id(task_id: int) -> Task:
     cursor.close()
     db.close()
     return Task(task_id=task[0], title=task[1], description=task[2], requested_by_name=find_user_by_id(str(task[3])).username, status=task[4], assigned_to_name=find_user_by_id(str(task[5])).username if task[5] else None, created_at=task[6], due_by=task[7]) if task else None
+
+def update_task_status(task_id: int, status: str):
+    db, cursor = connect_db()
+    cursor.execute(f"""
+    UPDATE tasks SET status = %s WHERE task_id = %s
+    """, (status, task_id))
+    db.commit()
+    cursor.close()
+    db.close()
+
+def add_token_to_db(email: str, token: str):
+    db, cursor = connect_db()
+    cursor.execute("""
+    INSERT INTO tokens(token, email)
+    VALUES(%s, %s)
+    """, (token, email))
+    db.commit()
+    cursor.close()
+    db.close()
+
+def find_token_in_db(token: str) -> str:
+    db, cursor = connect_db()
+    cursor.execute("""
+    SELECT email FROM tokens WHERE token = %s
+    """, (token,))
+    email = cursor.fetchone()
+    cursor.close()
+    db.close()
+    return email[0] if email else None

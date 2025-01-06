@@ -20,7 +20,8 @@ class Task:
     def __init__(self, task_id: int = None, title: str =None, description: str =None, requested_by: int =None, requested_by_name: str = None, status: str = None, assigned_to: int = None, assigned_to_name: str = None, created_at: str = None, due_by: str = None):
         self.task_id = task_id
         alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-        self.task_id_encoded = ''.join([choice([alphabet[int(char)], alphabet[int(char)].capitalize()]) for char in str(self.task_id*13087137435673)])
+        if self.task_id:
+            self.task_id_encoded = ''.join([choice([alphabet[int(char)], alphabet[int(char)].capitalize()]) for char in str(self.task_id*13087137435673)])
         self.title = title
         self.description = description
         self.requested_by = requested_by
