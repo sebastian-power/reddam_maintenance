@@ -13,8 +13,10 @@ async function renderSortedTasks(sort_by) {
         body: JSON.stringify({ sort_method: sort_by })
     });
     const data = await response.json();
+    console.log(data);
     for (const status_group of Object.keys(data.tasks)) {
         let taskContent = ``;
+        console.log(status_group);
         for (const task of data.tasks[status_group]) {
             if (status_group == "Pending") {
                 taskContent += `
@@ -49,8 +51,8 @@ async function renderSortedTasks(sort_by) {
                 `;
             }
             taskList.push(task);
-            document.getElementsByClassName("section-content")[status_to_item.indexOf(status_group)].insertAdjacentHTML("afterbegin", taskContent);
         }
+        document.getElementsByClassName("section-content")[status_to_item.indexOf(status_group)].insertAdjacentHTML("afterbegin", taskContent);
     }
 }
 document.addEventListener("DOMContentLoaded", async function() {
@@ -165,4 +167,7 @@ function deleteTask() {
         },
         body: JSON.stringify({ encoded_value: taskIdEncrypted })
     });
+    // location.reload();
+    exitPrompt();
+    document.querySelector(`div[onclick="showTask('${taskIdEncrypted}')`).remove();
 }

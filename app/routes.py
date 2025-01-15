@@ -76,7 +76,7 @@ def home_page():
         requested_by = current_user.user_id
         status = "Pending"
         created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        due_by = add_task_form.due_by.data.strftime("%Y-%m-%d %H:%M:%S")
+        due_by = add_task_form.due_by.data.strftime("%Y-%m-%d %H:%M:%S") if add_task_form.due_by.data else None
         new_task = Task(
             title=title,
             description=description,
@@ -92,7 +92,7 @@ def home_page():
         description = edit_task_form.description_edit.data
         task_id_encrypted = request.form.get("task_id_encrypted")
         decoded_value = unencrypt_pwd(task_id_encrypted)
-        due_by = edit_task_form.due_by_edit.data.strftime("%Y-%m-%d %H:%M:%S")
+        due_by = edit_task_form.due_by_edit.data.strftime("%Y-%m-%d %H:%M:%S") if edit_task_form.due_by_edit.data else None
         new_task = Task(
             task_id=decoded_value,
             title=title,
