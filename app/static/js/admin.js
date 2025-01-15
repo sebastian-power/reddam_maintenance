@@ -155,3 +155,14 @@ document.addEventListener('click', (e) => {
     suggestionsContainer.innerHTML = '';
     }
 });
+
+function deleteTask() {
+    const taskIdEncrypted = document.querySelector('input[name="task_id_encrypted"]').value;
+    fetch('/delete_task', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ encoded_value: taskIdEncrypted })
+    });
+}

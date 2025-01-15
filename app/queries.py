@@ -237,7 +237,7 @@ def assign_task(task_id: int, worker_id: int):
     cursor.close()
     db.close()
 
-def delete_task(task_id: int):
+def delete_task_query(task_id: int):
     db, cursor = connect_db()
     cursor.execute("""
     DELETE FROM tasks WHERE task_id = %s

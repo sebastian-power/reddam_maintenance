@@ -266,7 +266,7 @@ def delete_task():
     data = request.get_json()
     encoded_value = data.get("encoded_value")
     decoded_value = unencrypt_pwd(encoded_value)
-    delete_task(decoded_value)
+    delete_task_query(decoded_value)
     return "Task deleted"
 
 @main_bp.route("/logout")

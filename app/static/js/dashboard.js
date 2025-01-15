@@ -20,9 +20,8 @@ async function showTask(task_id_encrypted) {
         body: JSON.stringify({ encoded_value: task_id_encrypted })
     });
     const data = await response.json();
-    console.log(data.title)
     document.getElementById("overlay").style.display = "block";
-    document.getElementById("edit-task-prompt").style.display = "block";
+    document.getElementById("edit-task-prompt").style.display = "flex";
     document.getElementById("title_edit").value = data.title;
     document.getElementById("description_edit").value = data.description;
     document.getElementById("due_by_edit").value = new Date(data.due_by).toISOString().split('Z')[0];
