@@ -62,7 +62,7 @@
         const rolePwdField = document.getElementById("role_pwd");
 
         function toggleRolePwdValidator() {
-            if (roleField.value === "Admin") {
+            if (roleField.value === "Admin" || roleField.value === "Worker") {
                 rolePwdField.parentElement.style.display = "flex";
             } else {
                 rolePwdField.parentElement.style.display = "none";

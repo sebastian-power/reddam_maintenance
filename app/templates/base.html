@@ -10,6 +10,9 @@
     <meta name="apple-mobile-web-app-title" content="RHM" />
     <link rel="manifest" href="/static/images/site.webmanifest" />
     <script src="https://kit.fontawesome.com/232fc500b3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='jquery/jquery-ui.min.css') }}">
+    <script src="{{ url_for('static', filename='jquery/external/jquery/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery/jquery-ui.min.js') }}"></script>
     <title>{% block title %}{% endblock %} - Reddam Maintenance</title>
     {% block style_headers %}{% endblock style_headers %}
 </head>

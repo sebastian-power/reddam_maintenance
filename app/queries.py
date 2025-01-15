@@ -134,9 +134,8 @@ def add_task(task: Task):
 
 def retrieve_tasks(sort_by: str = "due_by") -> dict:
     db, cursor = connect_db()
-    status_list = ["Pending", "Not Started", "In Progress", "Done"]
-    tasks = {}
-    for status in status_list:
+    tasks = {"Pending": [], "Not Started": [], "In Progress": [], "Done": []}
+    for status in tasks.keys():
         cursor.execute(f"""
         SELECT task_id, title, description, requested_by, due_by FROM tasks WHERE status = %s ORDER BY %s{" DESC" if sort_by in ["created_at"] else ""}
         """, (status,sort_by))
@@ -185,3 +184,55 @@ def find_token_in_db(token: str) -> str:
     cursor.close()
     db.close()
     return email[0] if email else None
+
+def update_task(new_task: Task):
+    db, cursor = connect_db()
+    
+    query = "UPDATE tasks SET "
+    params = []
+    
+    if new_task.title is not None:
+        query += "title = %s, "
+        params.append(new_task.title)
+    if new_task.description is not None:
+        query += "description = %s, "
+        params.append(new_task.description)
+    if new_task.assigned_to is not None:
+        query += "assigned_to = %s, "
+        params.append(new_task.assigned_to)
+    if new_task.due_by is not None:
+        query += "due_by = %s, "
+        params.append(new_task.due_by)
+    
+    query = query.rstrip(", ")
+    
+    query += " WHERE task_id = %s"
+    params.append(new_task.task_id)
+    
+    cursor.execute(query, tuple(params))
+    db.commit()
+    cursor.close()
+    db.close()
+
+def retrieve_workers() -> list[str]:
+    db, cursor = connect_db()
+    cursor.execute("""
+    SELECT username FROM users WHERE role = "Worker"
+    """)
+    workers = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return [worker[0] for worker in workers]
+
+def assign_task(task_id: int, worker_id: int):
+    db, cursor = connect_db()
+    cursor.execute("""
+    UPDATE tasks SET assigned_to = %s WHERE task_id = %s;
+    """, (worker_id, task_id))
+    db.commit()
+    cursor.execute("""
+    UPDATE tasks SET status = 'Not Started' WHERE task_id = %s;
+    """, (task_id,))
+    db.commit()
+    cursor.close()
+    db.close()

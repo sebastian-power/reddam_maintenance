@@ -105,6 +105,7 @@ h1 {
 .section-content {
     padding: 3px;
     box-sizing: border-box;
+    height: calc(100% - 3.26em - 6px);
 }
 
 #add-task {
@@ -154,6 +155,26 @@ h1 {
 }
 
 #add-task-prompt h2 {
+    font-size: 1.6em;
+    font-weight: normal;
+    margin: 0;
+}
+
+#edit-task-prompt {
+    display: none;
+    border-radius: 7px;
+    z-index: 1002;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+#edit-task-prompt h2 {
     font-size: 1.6em;
     font-weight: normal;
     margin: 0;
@@ -236,4 +257,60 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #1f78f6;
+}
+
+.assign-worker {
+    background-color: transparent;
+    border-radius: 3px;
+    border: 1px gray solid;
+}
+
+.assign-worker:hover {
+    background-color: #0000000a;
+}
+
+#assign-worker-prompt {
+    display: none;
+    border-radius: 7px;
+    z-index: 1002;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+#assign-worker-prompt h2 {
+    font-size: 1.6em;
+    font-weight: normal;
+    margin: 0;
+}
+
+#assign-worker-prompt input[type="text"] {
+    font-size: 1.15em;
+    font-weight: normal;
+}
+
+#assign-worker-form {
+    margin-top: 15%;
+    margin-bottom: auto;
+}
+
+.autocomplete-suggestions {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    background: #fff;
+    z-index: 1000;
+}
+.autocomplete-suggestion {
+    padding: 8px;
+    cursor: pointer;
+}
+.autocomplete-suggestion:hover {
+    background-color: #eaeaea;
 }

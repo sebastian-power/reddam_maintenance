@@ -39,5 +39,5 @@ Every user sees sections
 
 Admin: Pending (click on task and assign), not started (drag), in progress (drag), done (drag and change autodelete)
 Workers: Pending (click on task and self-assign), not started (drag own, see others), in progress (drag own, see others), done (drag own, see others)
-Members: See all sections
+Members: See all sections, highlight tasks made by them
 

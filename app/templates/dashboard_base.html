@@ -19,7 +19,7 @@
         <div class="section-header">
             <h2>Not started</h2>
         </div>
-        <div class="section-content">
+        <div class="section-content confirmed-section">
             {% block notstarted %}{% endblock notstarted %}
         </div>
     </div>
@@ -27,7 +27,7 @@
         <div class="section-header">
             <h2>In progress</h2>
         </div>
-        <div class="section-content">
+        <div class="section-content confirmed-section">
             {% block inprogress %}{% endblock inprogress %}
         </div>
     </div>
@@ -35,14 +35,14 @@
         <div class="section-header">
             <h2>Done</h2>
         </div>
-        <div class="section-content">
+        <div class="section-content confirmed-section">
             {% block done %}{% endblock done %}
         </div>
     </div>
 </div>
 <button id="add-task" onclick="addTaskPrompt()"><p style="display: inline; vertical-align: middle;">Add Task</p><span id="plus-sign"> +</span></button>
 {% endblock content %}
-{% block addTask %}
+{% block taskPopups %}
 <div id="overlay" onclick="exitPrompt()"></div>
 <div id="add-task-prompt">
     <div class="prompt-header">
@@ -50,23 +50,52 @@
         <button id="exit" onclick="exitPrompt()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <form method="post">
-        {{ form.hidden_tag() }}
-        <p>{{ form.title.label }}<span style="color: red"> *</span></p>
-        {{ form.title() }}
-        {% for error in form.title.errors %}
+        {{ add_task_form.hidden_tag() }}
+        <p>{{ add_task_form.title.label }}<span style="color: red"> *</span></p>
+        {{ add_task_form.title() }}
+        {% for error in add_task_form.title.errors %}
             <span style="color: red;">{{ error }}</span>
         {% endfor %}
-        <p>{{ form.due_by.label }}</p>
-        {{ form.due_by() }}
-        {% for error in form.due_by.errors %}
+        <p>{{ add_task_form.due_by.label }}</p>
+        {{ add_task_form.due_by() }}
+        {% for error in add_task_form.due_by.errors %}
             <span style="color: red;">{{ error }}</span>
         {% endfor %}
-        <p>{{ form.description.label }}</p>
-        {{ form.description() }}
-        {% for error in form.description.errors %}
+        <p>{{ add_task_form.description.label }}</p>
+        {{ add_task_form.description() }}
+        {% for error in add_task_form.description.errors %}
             <span style="color: red;">{{ error }}</span>
         {% endfor %}
-        {{ form.submit() }}
+        {{ add_task_form.submit() }}
     </form>
 </div>
-{% endblock addTask %}
+<div id="edit-task-prompt">
+    <div class="prompt-header">
+        <h2>Edit Task</h2>
+        <button id="exit" onclick="exitPrompt()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="edit-task-form" method="post">
+        
+        {{ edit_form.hidden_tag() }}
+        <p>{{ edit_form.title_edit.label }}<span style="color: red"> *</span></p>
+        {{ edit_form.title_edit() }}
+        <p>{{ edit_form.due_by_edit.label }}</p>
+        {{ edit_form.due_by_edit() }}
+        <p>{{ edit_form.description_edit.label }}</p>
+        {{ edit_form.description_edit() }}
+        {{ edit_form.submit_edit() }}
+    </form>
+</div>
+<div id="assign-worker-prompt">
+    <div class="prompt-header">
+        <h2>Assign Task</h2>
+        <button id="exit" onclick="exitPrompt()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="assign-worker-form" method="post">
+        {{ assign_worker_form.hidden_tag() }}
+        {{ assign_worker_form.worker() }}
+        <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+        {{ assign_worker_form.submit() }}
+    </form>
+</div>
+{% endblock taskPopups %}

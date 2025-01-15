@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, EmailField, PasswordField, StringField, SelectField, DateTimeLocalField, TextAreaField
+from wtforms import SubmitField, EmailField, PasswordField, StringField, SelectField, DateTimeLocalField, TextAreaField, HiddenField
 from wtforms.validators import DataRequired, Length, Email, ValidationError
 
 def validate_role_pwd(form, field):
@@ -37,3 +37,13 @@ class AddTaskForm(FlaskForm):
      due_by = DateTimeLocalField("To be completed by", validators=[])
      description = TextAreaField("Task Details", validators=[Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task description"})
      submit = SubmitField("Create Task")
+
+class EditTaskForm(FlaskForm):
+     title_edit = StringField("Title", validators=[DataRequired(message="This field is required"), Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task title"})
+     due_by_edit = DateTimeLocalField("Due By", validators=[])
+     description_edit = TextAreaField("Task Details", validators=[Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task description"})
+     submit_edit = SubmitField("Save Changes")
+
+class AssignWorkerForm(FlaskForm):
+    worker = StringField("Assign to", validators=[DataRequired(message="This field is required")], render_kw={"placeholder": "Enter worker's name"})
+    submit = SubmitField("Assign Task")

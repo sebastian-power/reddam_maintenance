@@ -1,5 +1,22 @@
-from flask import Blueprint, render_template, redirect, url_for, session, request, jsonify
-from app.forms import SignupForm, LoginForm, EditProfileForm, ChangePasswordForm, ForgotPasswordForm, AddTaskForm
+from flask import (
+    Blueprint,
+    render_template,
+    redirect,
+    url_for,
+    session,
+    request,
+    jsonify,
+)
+from app.forms import (
+    SignupForm,
+    LoginForm,
+    EditProfileForm,
+    ChangePasswordForm,
+    ForgotPasswordForm,
+    AddTaskForm,
+    EditTaskForm,
+    AssignWorkerForm
+)
 from flask_login import login_required, login_user, logout_user, current_user
 from app.models import User
 from .queries import *
@@ -16,18 +33,80 @@ main_bp = Blueprint("main", __name__)
 @main_bp.route("/", methods=("GET", "POST"))
 @login_required
 def home_page():
-    form = AddTaskForm()
-    if form.validate_on_submit():
-        title = form.title.data
-        description = form.description.data
+    edit_task_form = EditTaskForm()
+    add_task_form = AddTaskForm()
+    assign_worker_form = AssignWorkerForm()
+    alphabet = [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+    ]
+    if add_task_form.validate_on_submit():
+        title = add_task_form.title.data
+        description = add_task_form.description.data
         requested_by = current_user.user_id
         status = "Pending"
         created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        due_by = form.due_by.data.strftime("%Y-%m-%d %H:%M:%S")
-        new_task = Task(title=title, description=description, requested_by=requested_by, status=status, created_at=created_at, due_by=due_by)
+        due_by = add_task_form.due_by.data.strftime("%Y-%m-%d %H:%M:%S")
+        new_task = Task(
+            title=title,
+            description=description,
+            requested_by=requested_by,
+            status=status,
+            created_at=created_at,
+            due_by=due_by,
+        )
         add_task(new_task)
-        return redirect(url_for('main.home_page'))
-    return render_template("admin.html", form=form)
+        return redirect(url_for("main.home_page"))
+    if edit_task_form.validate_on_submit():
+        title = edit_task_form.title_edit.data
+        description = edit_task_form.description_edit.data
+        task_id_encrypted = request.form.get("task_id_encrypted")
+        decoded_value = int(
+        int("".join([str(alphabet.index(char.lower())) for char in task_id_encrypted ]))
+        / 13087137435673
+        )
+        due_by = edit_task_form.due_by_edit.data.strftime("%Y-%m-%d %H:%M:%S")
+        new_task = Task(
+            task_id=decoded_value,
+            title=title,
+            description=description,
+            due_by=due_by,
+        )
+        update_task(new_task)
+        return redirect(url_for("main.home_page"))
+    if assign_worker_form.validate_on_submit():
+        worker = assign_worker_form.worker.data
+        task_id_encrypted = request.form.get("task_id_encrypted")
+        decoded_value = int(
+        int("".join([str(alphabet.index(char.lower())) for char in task_id_encrypted ]))
+        / 13087137435673
+        )
+        assign_task(decoded_value, find_user_by_name(worker).user_id)
+    return render_template("admin.html", add_task_form=add_task_form, edit_form=edit_task_form, assign_worker_form=assign_worker_form)
 
 
 @main_bp.route("/login", methods=("GET", "POST"))
@@ -39,12 +118,12 @@ def login():
     """
     form = LoginForm()
     error = ""
-    if session.get('auto_login'):
+    if session.get("auto_login"):
         print("auto_login")
-        session.pop('auto_login')
+        session.pop("auto_login")
 
-        email = request.args.get('email')
-        password = request.args.get('password')
+        email = request.args.get("email")
+        password = request.args.get("password")
         user = authenticate_user(email, password)
         if user:
             login_user(user, remember=True)
@@ -61,7 +140,7 @@ def login():
             return redirect(url_for("main.home_page"))
         else:
             error = "Invalid email or password. Try again."
-        
+
     return render_template("login.html", form=form, error=error)
 
 
@@ -73,14 +152,20 @@ def signup():
         email = form.email.data
         role = form.role.data
         role_pwd = form.role_pwd.data
-        hashed_password = bcrypt.hashpw(form.password.data.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+        hashed_password = bcrypt.hashpw(
+            form.password.data.encode("utf-8"), bcrypt.gensalt()
+        ).decode("utf-8")
         if role == "Admin" and role_pwd != os.getenv("ROLE_PWD"):
             return render_template(
                 "signup.html", form=form, error="Role password is incorrect"
             )
+        elif role == "Worker" and role_pwd != os.getenv("WRKR_PWD"):
+            return render_template(
+                "signup.html", form=form, error="Role password is incorrect"
+            )
         add_user(User(username=name, email=email, role=role, password=hashed_password))
-        session['auto_login'] = True
-        return redirect(url_for('main.login', email=email, password=form.password.data))
+        session["auto_login"] = True
+        return redirect(url_for("main.login", email=email, password=form.password.data))
     return render_template("signup.html", form=form, error="")
 
 
@@ -112,8 +197,9 @@ def forgot_password():
             return "Email with reset link sent"
         else:
             return "Account with email does not exist"
-        
+
     return render_template("forgot_pwd.html", form=form)
+
 
 @main_bp.route("/change_pwd_unauth", methods=("GET", "POST"))
 def change_pwd_unauth():
@@ -133,6 +219,7 @@ def change_pwd_unauth():
     else:
         return "Invalid token"
 
+
 @main_bp.route("/change_pwd_auth", methods=("GET", "POST"))
 @login_required
 def change_pwd_auth():
@@ -143,14 +230,46 @@ def change_pwd_auth():
         return redirect(url_for("main.profile"))
     return render_template("change_password.html", form=form)
 
+
 @main_bp.route("/get_task", methods=("POST",))
 def get_task():
     data = request.get_json()
-    alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    alphabet = [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+    ]
     encoded_value = data.get("encoded_value")
-    decoded_value = int(int(''.join([str(alphabet.index(char.lower())) for char in encoded_value]))/13087137435673)
+    decoded_value = int(
+        int("".join([str(alphabet.index(char.lower())) for char in encoded_value]))
+        / 13087137435673
+    )
     task = find_task_by_id(decoded_value).__dict__
     return jsonify(task)
+
 
 @main_bp.route("/get_tasks_sorted", methods=("POST",))
 def get_tasks_sorted():
@@ -159,4 +278,52 @@ def get_tasks_sorted():
     tasks = retrieve_tasks(sort_by=sort_method)
     return jsonify({"tasks": tasks})
 
+@main_bp.route("/get_workers", methods=("POST",))
+def get_workers():
+    workers = retrieve_workers()
+    return jsonify({"worker_names": workers})
 
+@main_bp.route("/change_status_drag", methods=("POST",))
+def change_status_drag():
+    data = request.get_json()
+    alphabet = [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+    ]
+    encoded_value = data.get("encoded_value")
+    decoded_value = int(
+        int("".join([str(alphabet.index(char.lower())) for char in encoded_value]))
+        / 13087137435673
+    )
+    new_status = data.get("new_status")
+    update_task_status(decoded_value, new_status)
+    return "Status updated"
+
+@main_bp.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("main.login"))
