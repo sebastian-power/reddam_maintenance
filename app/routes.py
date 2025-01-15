@@ -27,16 +27,7 @@ import base64
 from datetime import datetime
 import json
 
-main_bp = Blueprint("main", __name__)
-
-
-@main_bp.route("/", methods=("GET", "POST"))
-@login_required
-def home_page():
-    edit_task_form = EditTaskForm()
-    add_task_form = AddTaskForm()
-    assign_worker_form = AssignWorkerForm()
-    alphabet = [
+alphabet = [
         "a",
         "b",
         "c",
@@ -63,7 +54,22 @@ def home_page():
         "x",
         "y",
         "z",
-    ]
+]
+def unencrypt_pwd(pwd):
+    return int(
+        int("".join([str(alphabet.index(char.lower())) for char in pwd ]))
+        / 13087137435673
+        )
+
+main_bp = Blueprint("main", __name__)
+
+
+@main_bp.route("/", methods=("GET", "POST"))
+@login_required
+def home_page():
+    edit_task_form = EditTaskForm()
+    add_task_form = AddTaskForm()
+    assign_worker_form = AssignWorkerForm()
     if add_task_form.validate_on_submit():
         title = add_task_form.title.data
         description = add_task_form.description.data
@@ -85,10 +91,7 @@ def home_page():
         title = edit_task_form.title_edit.data
         description = edit_task_form.description_edit.data
         task_id_encrypted = request.form.get("task_id_encrypted")
-        decoded_value = int(
-        int("".join([str(alphabet.index(char.lower())) for char in task_id_encrypted ]))
-        / 13087137435673
-        )
+        decoded_value = unencrypt_pwd(task_id_encrypted)
         due_by = edit_task_form.due_by_edit.data.strftime("%Y-%m-%d %H:%M:%S")
         new_task = Task(
             task_id=decoded_value,
@@ -101,10 +104,7 @@ def home_page():
     if assign_worker_form.validate_on_submit():
         worker = assign_worker_form.worker.data
         task_id_encrypted = request.form.get("task_id_encrypted")
-        decoded_value = int(
-        int("".join([str(alphabet.index(char.lower())) for char in task_id_encrypted ]))
-        / 13087137435673
-        )
+        decoded_value = unencrypt_pwd(task_id_encrypted)
         assign_task(decoded_value, find_user_by_name(worker).user_id)
     return render_template("admin.html", add_task_form=add_task_form, edit_form=edit_task_form, assign_worker_form=assign_worker_form)
 
@@ -234,39 +234,8 @@ def change_pwd_auth():
 @main_bp.route("/get_task", methods=("POST",))
 def get_task():
     data = request.get_json()
-    alphabet = [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z",
-    ]
     encoded_value = data.get("encoded_value")
-    decoded_value = int(
-        int("".join([str(alphabet.index(char.lower())) for char in encoded_value]))
-        / 13087137435673
-    )
+    decoded_value = unencrypt_pwd(encoded_value)
     task = find_task_by_id(decoded_value).__dict__
     return jsonify(task)
 
@@ -286,42 +255,19 @@ def get_workers():
 @main_bp.route("/change_status_drag", methods=("POST",))
 def change_status_drag():
     data = request.get_json()
-    alphabet = [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z",
-    ]
     encoded_value = data.get("encoded_value")
-    decoded_value = int(
-        int("".join([str(alphabet.index(char.lower())) for char in encoded_value]))
-        / 13087137435673
-    )
+    decoded_value = unencrypt_pwd(encoded_value)
     new_status = data.get("new_status")
     update_task_status(decoded_value, new_status)
     return "Status updated"
+
+@main_bp.route("/delete_task", methods=("POST",))
+def delete_task():
+    data = request.get_json()
+    encoded_value = data.get("encoded_value")
+    decoded_value = unencrypt_pwd(encoded_value)
+    delete_task(decoded_value)
+    return "Task deleted"
 
 @main_bp.route("/logout")
 def logout():
