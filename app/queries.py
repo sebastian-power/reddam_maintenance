@@ -236,3 +236,12 @@ def assign_task(task_id: int, worker_id: int):
     db.commit()
     cursor.close()
     db.close()
+
+def delete_task_query(task_id: int):
+    db, cursor = connect_db()
+    cursor.execute("""
+    DELETE FROM tasks WHERE task_id = %s
+    """, (task_id,))
+    db.commit()
+    cursor.close()
+    db.close()

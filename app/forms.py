@@ -1,10 +1,18 @@
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, EmailField, PasswordField, StringField, SelectField, DateTimeLocalField, TextAreaField, HiddenField
-from wtforms.validators import DataRequired, Length, Email, ValidationError
+from wtforms.validators import DataRequired, Length, Email, ValidationError, Optional
+from datetime import datetime
 
 def validate_role_pwd(form, field):
-        if form.role.data == "Admin" and not field.data:
-            raise ValidationError("Role password is required for Admin role")
+    if form.role.data == "Admin" and not field.data:
+        raise ValidationError("Role password is required for Admin role")
+
+def optional_date(form, field):
+    if field.data:
+        try:
+            datetime.strptime(field.data.strftime('%Y-%m-%dT%H:%M'), '%Y-%m-%dT%H:%M')
+        except ValueError:
+            raise ValidationError("Not a valid datetime value")
 
 class LoginForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired(message="This field is required")], render_kw={"placeholder": "Enter your email"})
@@ -20,29 +28,29 @@ class SignupForm(FlaskForm):
     submit = SubmitField("Create an account")
 
 class EditProfileForm(FlaskForm):
-     name = StringField("Name", validators=[DataRequired(message="This field is required"), Length(max=100)])
-     email = EmailField("Email", validators=[DataRequired(message="This field is required"), Email(message="Please enter a valid email"), Length(max=100)])
-     submit = SubmitField("Save")
+    name = StringField("Name", validators=[DataRequired(message="This field is required"), Length(max=100)])
+    email = EmailField("Email", validators=[DataRequired(message="This field is required"), Email(message="Please enter a valid email"), Length(max=100)])
+    submit = SubmitField("Save")
 
 class ChangePasswordForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired(message="This field is required")], render_kw={"placeholder": "Enter your new password"})
     submit = SubmitField("Confirm")
 
 class ForgotPasswordForm(FlaskForm):
-     email = EmailField("Email", validators=[Email(message="Please enter a valid email")], render_kw={"placeholder": "Enter your email"})
-     submit = SubmitField("Send Password Reset Link")
+    email = EmailField("Email", validators=[Email(message="Please enter a valid email")], render_kw={"placeholder": "Enter your email"})
+    submit = SubmitField("Send Password Reset Link")
 
 class AddTaskForm(FlaskForm):
-     title = StringField("Title", validators=[DataRequired(message="This field is required"), Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task title"})
-     due_by = DateTimeLocalField("To be completed by", validators=[])
-     description = TextAreaField("Task Details", validators=[Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task description"})
-     submit = SubmitField("Create Task")
+    title = StringField("Title", validators=[DataRequired(message="This field is required"), Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task title"})
+    due_by = DateTimeLocalField("To be completed by", validators=[Optional(), optional_date], format='%Y-%m-%dT%H:%M')
+    description = TextAreaField("Task Details", validators=[Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task description"})
+    submit = SubmitField("Create Task")
 
 class EditTaskForm(FlaskForm):
-     title_edit = StringField("Title", validators=[DataRequired(message="This field is required"), Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task title"})
-     due_by_edit = DateTimeLocalField("Due By", validators=[])
-     description_edit = TextAreaField("Task Details", validators=[Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task description"})
-     submit_edit = SubmitField("Save Changes")
+    title_edit = StringField("Title", validators=[DataRequired(message="This field is required"), Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task title"})
+    due_by_edit = DateTimeLocalField("Due By", validators=[Optional(), optional_date], format='%Y-%m-%dT%H:%M')
+    description_edit = TextAreaField("Task Details", validators=[Length(max=255, message="Title cannot be longer than 255 characters")], render_kw={"placeholder": "Enter task description"})
+    submit_edit = SubmitField("Save Changes")
 
 class AssignWorkerForm(FlaskForm):
     worker = StringField("Assign to", validators=[DataRequired(message="This field is required")], render_kw={"placeholder": "Enter worker's name"})
