@@ -18,7 +18,7 @@ pip install -r requirements.txt
 Create a file named `.env` in the root project directory with contents
 ```
 DB_PWD="root password here"
-DB_NAME="database to be used for project here"
+DB_NAME="database name created earlier for project here"
 SECRET_KEY="generate some random letters and numbers here for csrf prevention"
 ROLE_PWD="password for admins to create an account"
 WRKR_PWD="password for workers to create an account"
