@@ -141,7 +141,7 @@ def retrieve_tasks(sort_by: str = "due_by") -> dict:
         """, (status,sort_by))
         task_list_list = cursor.fetchall()
         if task_list_list:
-            tasks[status] = [Task(task_id=task_list[0], title=task_list[1], description=task_list[2], requested_by_name=find_user_by_id(str(task_list[3])).username, status=task_list[4], assigned_to=task_list[5], assigned_to_name=find_user_by_id(str(task_list[5])).username, due_by=task_list[6]).__dict__ for task_list in task_list_list]
+            tasks[status] = [Task(task_id=task_list[0], title=task_list[1], description=task_list[2], requested_by=task_list[3], requested_by_name=find_user_by_id(str(task_list[3])).username, status=task_list[4], assigned_to=task_list[5], assigned_to_name=find_user_by_id(str(task_list[5])).username if task_list[5] else None, due_by=task_list[6]).__dict__ for task_list in task_list_list]
     cursor.close()
     db.close()
     return tasks if tasks != {} else None

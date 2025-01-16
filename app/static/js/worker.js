@@ -37,8 +37,21 @@ async function renderSortedTasks(sort_by) {
                     <div class="created-by">
                         <p><b>Requested By: </b>${task.requested_by_name}</p>
                     </div>
-                    <div class="assigned-to">
-                        <p><b>Assigned To: </b>${task.assigned_to_name}</p>
+                    <button class="assign-worker" onclick="assignWorker(event,this,'${task.task_id_encoded}')">Self Assign</button>
+                </div>
+                `;
+            } else if (status_group == "Pending") {
+                taskContent += `
+                <div class="task-content nono">
+                    <h2 class="task-title">${task.title}</h2>
+                    <div class="description">
+                        <p>${task.description}</p>
+                    </div>
+                    <div class="due-date">
+                        <p><i class="fa-solid fa-calendar-day" style="color: #585757; margin-right: 8px;"></i>${task.due_by_str}</p>
+                    </div>
+                    <div class="created-by">
+                        <p><b>Requested By: </b>${task.requested_by_name}</p>
                     </div>
                     <button class="assign-worker" onclick="assignWorker(event,this,'${task.task_id_encoded}')">Self Assign</button>
                 </div>
@@ -59,25 +72,6 @@ async function renderSortedTasks(sort_by) {
                     <div class="assigned-to">
                         <p><b>Assigned To: </b>${task.assigned_to_name}</p>
                     </div>
-                </div>
-                `;
-            } else if (status_group == "Pending") {
-                taskContent += `
-                <div class="task-content nono">
-                    <h2 class="task-title">${task.title}</h2>
-                    <div class="description">
-                        <p>${task.description}</p>
-                    </div>
-                    <div class="due-date">
-                        <p><i class="fa-solid fa-calendar-day" style="color: #585757; margin-right: 8px;"></i>${task.due_by_str}</p>
-                    </div>
-                    <div class="created-by">
-                        <p><b>Requested By: </b>${task.requested_by_name}</p>
-                    </div>
-                    <div class="assigned-to">
-                        <p><b>Assigned To: </b>${task.assigned_to_name}</p>
-                    </div>
-                    <button class="assign-worker" onclick="assignWorker(event,this,'${task.task_id_encoded}')">Self Assign</button>
                 </div>
                 `;
             } else if (task.assigned_to == data_usr) {
