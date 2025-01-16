@@ -53,17 +53,17 @@ def send_new_task_email(email: str, task: Task):
             )
         connection.quit()
 
-def assigned_to_email(task: Task):
+def assigned_to_email(email: str, task: Task):
     with initiate_connection() as connection:
         msg = MIMEMultipart()
         msg["From"] = os.getenv("EMAIL")
-        msg["To"] = find_user_by_id(task.assigned_to).email
+        msg["To"] = email
         msg["Subject"] = f"Task Assigned - {task.title}"
         body = f"""<h1>{task.title}</h1><p><b>Description:</b> {task.description}</p><a href="127.0.0.1:5000/"><p>Click here to view the task</p></a>(127.0.0.1:5000/ if link does not work)"""
         msg.attach(MIMEText(body, "html"))
         connection.sendmail(
             from_addr=os.getenv("EMAIL"),
-            to_addrs=find_user_by_id(task.assigned_to).email,
+            to_addrs=email,
             msg=msg.as_string()
         )
         connection.quit()

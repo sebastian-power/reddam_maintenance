@@ -27,10 +27,7 @@ async function renderSortedTasks(sort_by) {
                         <p><i class="fa-solid fa-calendar-day" style="color: #585757; margin-right: 8px;"></i>${task.due_by_str}</p>
                     </div>
                     <div class="created-by">
-                        <p><b>Requested By: </b>${task.requested_by_name}</p>
-                    </div>
-                    <div class="assigned-to">
-                        <p><b>Assigned To: </b>${task.assigned_to_name}</p>
+                        <p><i class="fa-solid fa-user" style="color: #585757; margin-right: 8px;"></i><b>Requested By: </b>${task.requested_by_name}</p>
                     </div>
                     <button class="assign-worker" onclick="assignWorker(event,'${task.task_id_encoded}')">Assign Worker</button>
                 </div>
@@ -46,10 +43,10 @@ async function renderSortedTasks(sort_by) {
                         <p><i class="fa-solid fa-calendar-day" style="color: #585757; margin-right: 8px;"></i>${task.due_by_str}</p>
                     </div>
                     <div class="created-by">
-                        <p><b>Requested By: </b>${task.requested_by_name}</p>
+                        <p><i class="fa-solid fa-user" style="color: #585757; margin-right: 8px;"></i><b>Requested By: </b>${task.requested_by_name}</p>
                     </div>
                     <div class="assigned-to">
-                        <p><b>Assigned To: </b>${task.assigned_to_name}</p>
+                        <p><i class="fa-solid fa-clipboard-user" style="color: #585757; margin-right: 8px;"></i><b>Assigned To: </b>${task.assigned_to_name}</p>
                     </div>
                 </div>
                 `;

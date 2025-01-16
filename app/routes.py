@@ -107,7 +107,7 @@ def home_page():
         task_id_encrypted = request.form.get("task_id_encrypted")
         decoded_value = unencrypt_pwd(task_id_encrypted)
         assign_task(decoded_value, find_user_by_name(worker).user_id)
-        assigned_to_email(find_task_by_id(decoded_value))
+        assigned_to_email(find_user_by_name(worker).email, find_task_by_id(decoded_value))
     if current_user.role == "Admin":
         return render_template("admin.html", add_task_form=add_task_form, edit_form=edit_task_form, assign_worker_form=assign_worker_form)
     elif current_user.role == "Worker":
