@@ -245,3 +245,13 @@ def delete_task_query(task_id: int):
     db.commit()
     cursor.close()
     db.close()
+
+def get_admin_worker_emails() -> list[str]:
+    db, cursor = connect_db()
+    cursor.execute("""
+    SELECT email FROM users WHERE role = "Admin" OR role = "Worker"
+    """)
+    users = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return [user[0] for user in users]

@@ -91,6 +91,9 @@ def change_status_drag():
     decoded_value = unencrypt_pwd(encoded_value)
     new_status = data.get("new_status")
     update_task_status(decoded_value, new_status)
+    if new_status == "Done":
+        task = find_task_by_id(decoded_value)
+        task_completed_email(task)
     return "Status updated"
 
 @api_bp.route("/delete_task", methods=("POST",))
