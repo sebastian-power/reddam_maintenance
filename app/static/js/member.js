@@ -1,7 +1,3 @@
-String.prototype.toProperCase = function () {
-    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-};
-
 async function renderSortedTasks(sort_by) {
     const status_to_item = ["Pending", "Not Started", "In Progress", "Done"];
     const usr_res = await fetch("/api/current_user", {
@@ -102,3 +98,16 @@ async function renderSortedTasks(sort_by) {
 document.addEventListener("DOMContentLoaded", async function() {
     await renderSortedTasks("due_by");
 });
+
+function deleteTask() {
+    const taskIdEncrypted = document.querySelector('input[name="task_id_encrypted"]').value;
+    fetch('/api/delete_task', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ encoded_value: taskIdEncrypted })
+    });
+    exitPrompt();
+    document.querySelector(`div[onclick="showTask('${taskIdEncrypted}')`).remove();
+}
