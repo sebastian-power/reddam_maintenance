@@ -171,7 +171,6 @@ function deleteTask() {
         },
         body: JSON.stringify({ encoded_value: taskIdEncrypted })
     });
-    // location.reload();
     exitPrompt();
     document.querySelector(`div[onclick="showTask('${taskIdEncrypted}')`).remove();
 }
