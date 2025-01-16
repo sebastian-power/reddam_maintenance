@@ -3,7 +3,13 @@
 ## Files
 `git clone https://github.com/sebastian-power/reddam_maintenance.git`
 ## Python Reqs
-`pip install -r requirements.txt`
+Navigate to the project folder that was downloaded then run
+```
+python -m venv venv
+source venv/bin/activate (Linux & MacOS)
+.\venv\Scripts\activate (Windows)
+pip install -r requirements.txt
+```
 ## MySQL Server
 [Install MySQL Server](https://www.geeksforgeeks.org/how-to-install-mysql-on-linux/) if you haven't already
 `mysql -u root -p`
