@@ -4,6 +4,14 @@ String.prototype.toProperCase = function () {
 
 async function renderSortedTasks(sort_by) {
     const status_to_item = ["Pending", "Not Started", "In Progress", "Done"];
+    const usr_res = await fetch("/api/current_user", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    });
+    const id_json = await usr_res.json();
+    const data_usr = id_json.user_id;
     let taskList = [];
     const response = await fetch("/api/get_tasks_sorted", {
         method: "POST",
@@ -16,7 +24,7 @@ async function renderSortedTasks(sort_by) {
     for (const status_group of Object.keys(data.tasks)) {
         let taskContent = ``;
         for (const task of data.tasks[status_group]) {
-            if (status_group == "Pending") {
+            if (status_group == "Pending" && task.requested_by == data_usr) {
                 taskContent += `
                 <div class="task-content" onclick="showTask('${task.task_id_encoded}')">
                     <h2 class="task-title">${task.title}</h2>
@@ -32,12 +40,67 @@ async function renderSortedTasks(sort_by) {
                     <div class="assigned-to">
                         <p><b>Assigned To: </b>${task.assigned_to_name}</p>
                     </div>
-                    <button class="assign-worker" onclick="assignWorker(event,'${task.task_id_encoded}')">Assign Worker</button>
+                    <button class="assign-worker" onclick="assignWorker(event,this,'${task.task_id_encoded}')">Self Assign</button>
                 </div>
                 `;
-            } else {
+            } else if (task.requested_by == data_usr) {
                 taskContent += `
-                <div class="task-content confirmed" onclick="showTask('${task.task_id_encoded}')">
+                <div class="task-content" onclick="showTask('${task.task_id_encoded}')">
+                    <h2 class="task-title">${task.title}</h2>
+                    <div class="description">
+                        <p>${task.description}</p>
+                    </div>
+                    <div class="due-date">
+                        <p><i class="fa-solid fa-calendar-day" style="color: #585757; margin-right: 8px;"></i>${task.due_by_str}</p>
+                    </div>
+                    <div class="created-by">
+                        <p><b>Requested By: </b>${task.requested_by_name}</p>
+                    </div>
+                    <div class="assigned-to">
+                        <p><b>Assigned To: </b>${task.assigned_to_name}</p>
+                    </div>
+                </div>
+                `;
+            } else if (status_group == "Pending") {
+                taskContent += `
+                <div class="task-content nono">
+                    <h2 class="task-title">${task.title}</h2>
+                    <div class="description">
+                        <p>${task.description}</p>
+                    </div>
+                    <div class="due-date">
+                        <p><i class="fa-solid fa-calendar-day" style="color: #585757; margin-right: 8px;"></i>${task.due_by_str}</p>
+                    </div>
+                    <div class="created-by">
+                        <p><b>Requested By: </b>${task.requested_by_name}</p>
+                    </div>
+                    <div class="assigned-to">
+                        <p><b>Assigned To: </b>${task.assigned_to_name}</p>
+                    </div>
+                    <button class="assign-worker" onclick="assignWorker(event,this,'${task.task_id_encoded}')">Self Assign</button>
+                </div>
+                `;
+            } else if (task.assigned_to == data_usr) {
+                taskContent += `
+                <div class="task-content OgBiH" onclick="showTask('${task.task_id_encoded}')">
+                    <h2 class="task-title">${task.title}</h2>
+                    <div class="description">
+                        <p>${task.description}</p>
+                    </div>
+                    <div class="due-date">
+                        <p><i class="fa-solid fa-calendar-day" style="color: #585757; margin-right: 8px;"></i>${task.due_by_str}</p>
+                    </div>
+                    <div class="created-by">
+                        <p><b>Requested By: </b>${task.requested_by_name}</p>
+                    </div>
+                    <div class="assigned-to">
+                        <p style="background-color: #9ce39c; border-radius: 3px;"><b>Assigned To: </b>${task.assigned_to_name}</p>
+                    </div>
+                </div>
+                `;
+            } else if (task.requested_by != data_usr) {
+                taskContent += `
+                <div class="task-content nono">
                     <h2 class="task-title">${task.title}</h2>
                     <div class="description">
                         <p>${task.description}</p>
@@ -59,10 +122,25 @@ async function renderSortedTasks(sort_by) {
         document.getElementsByClassName("section-content")[status_to_item.indexOf(status_group)].insertAdjacentHTML("afterbegin", taskContent);
     }
 }
+
+function assignWorker(event, task_div_button, task_id_encrypted) {
+    event.stopPropagation();
+    fetch('/api/assign_worker', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ encoded_value: task_id_encrypted })
+    });
+    document.getElementsByClassName("section-content")[1].insertAdjacentElement("afterbegin", task_div_button.parentNode);
+    task_div_button.remove();
+
+}
+
 document.addEventListener("DOMContentLoaded", async function() {
     await renderSortedTasks("due_by");
 
-    $(".confirmed").draggable({
+    $(".OgBiH").draggable({
         revert: "invalid",
         helper: "clone",
         start: function(event, ui) {
@@ -75,7 +153,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     });
 
     $(".section-content.confirmed-section").droppable({
-        accept: ".confirmed",
+        accept: ".OgBiH",
         drop: function(event, ui) {
             $(this)
                 .append(ui.draggable.css("position", "static"));
@@ -103,75 +181,3 @@ document.addEventListener("DOMContentLoaded", async function() {
         }
     });
 });
-
-function assignWorker(event, task_id_encrypted) {
-    event.stopPropagation();
-    document.getElementById("overlay").style.display = "block";
-    document.getElementById("assign-worker-prompt").style.display = "block";
-    let form = document.getElementById("assign-worker-form");
-    const hidden_in = document.createElement("input");
-    hidden_in.value = task_id_encrypted;
-    hidden_in.name = "task_id_encrypted";
-    hidden_in.type = "hidden";
-
-    form.appendChild(hidden_in);
-}
-
-
-let suggestions = [];
-fetch('/api/get_workers', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    }
-})
-    .then(response => response.json())
-    .then(data => {
-        suggestions = data.worker_names;
-    });
-
-const inputField = document.getElementById('worker');
-const suggestionsContainer = document.getElementById('autocomplete-suggestions');
-
-inputField.addEventListener('input', () => {
-    const query = inputField.value.toLowerCase();
-    suggestionsContainer.innerHTML = '';
-
-    if (query) {
-    const filteredSuggestions = suggestions.filter(item =>
-        item.toLowerCase().includes(query)
-    );
-
-    filteredSuggestions.forEach(suggestion => {
-        const suggestionElement = document.createElement('div');
-        suggestionElement.textContent = suggestion;
-        suggestionElement.classList.add('autocomplete-suggestion');
-        suggestionElement.addEventListener('click', () => {
-        inputField.value = suggestion;
-        suggestionsContainer.innerHTML = '';
-        });
-        suggestionsContainer.appendChild(suggestionElement);
-    });
-    }
-});
-
-// Close suggestions when clicking outside
-document.addEventListener('click', (e) => {
-    if (e.target !== inputField) {
-    suggestionsContainer.innerHTML = '';
-    }
-});
-
-function deleteTask() {
-    const taskIdEncrypted = document.querySelector('input[name="task_id_encrypted"]').value;
-    fetch('/api/delete_task', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ encoded_value: taskIdEncrypted })
-    });
-    // location.reload();
-    exitPrompt();
-    document.querySelector(`div[onclick="showTask('${taskIdEncrypted}')`).remove();
-}

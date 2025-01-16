@@ -334,3 +334,20 @@ input[type="submit"]:hover {
 .autocomplete-suggestion:hover {
     background-color: #eaeaea;
 }
+
+.nono {
+    cursor: default;
+}
+
+#dashboard-section-pending .nono:hover {
+    background-color: white;
+}
+#dashboard-section-not-started .nono:hover {
+    background-color: white;
+}
+#dashboard-section-in-progress .nono:hover {
+    background-color: white;
+}
+#dashboard-section-done .nono:hover {
+    background-color: white;
+}

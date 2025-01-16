@@ -16,6 +16,8 @@ def create_app():
         return find_user_by_id(user_id)
 
     from app.routes import main_bp
+    from app.api import api_bp
     app.register_blueprint(main_bp)
+    app.register_blueprint(api_bp, url_prefix="/api")
 
     return app

@@ -106,7 +106,13 @@ def home_page():
         task_id_encrypted = request.form.get("task_id_encrypted")
         decoded_value = unencrypt_pwd(task_id_encrypted)
         assign_task(decoded_value, find_user_by_name(worker).user_id)
-    return render_template("admin.html", add_task_form=add_task_form, edit_form=edit_task_form, assign_worker_form=assign_worker_form)
+    if current_user.role == "Admin":
+        return render_template("admin.html", add_task_form=add_task_form, edit_form=edit_task_form, assign_worker_form=assign_worker_form)
+    elif current_user.role == "Worker":
+        return render_template("worker.html", add_task_form=add_task_form, edit_form=edit_task_form)
+    elif current_user.role == "Member":
+        return render_template("member.html", add_task_form=add_task_form, edit_form=edit_task_form)
+    
 
 
 @main_bp.route("/login", methods=("GET", "POST"))
@@ -230,44 +236,6 @@ def change_pwd_auth():
         return redirect(url_for("main.profile"))
     return render_template("change_password.html", form=form)
 
-
-@main_bp.route("/get_task", methods=("POST",))
-def get_task():
-    data = request.get_json()
-    encoded_value = data.get("encoded_value")
-    decoded_value = unencrypt_pwd(encoded_value)
-    task = find_task_by_id(decoded_value).__dict__
-    return jsonify(task)
-
-
-@main_bp.route("/get_tasks_sorted", methods=("POST",))
-def get_tasks_sorted():
-    data = request.get_json()
-    sort_method = data.get("sort_method")
-    tasks = retrieve_tasks(sort_by=sort_method)
-    return jsonify({"tasks": tasks})
-
-@main_bp.route("/get_workers", methods=("POST",))
-def get_workers():
-    workers = retrieve_workers()
-    return jsonify({"worker_names": workers})
-
-@main_bp.route("/change_status_drag", methods=("POST",))
-def change_status_drag():
-    data = request.get_json()
-    encoded_value = data.get("encoded_value")
-    decoded_value = unencrypt_pwd(encoded_value)
-    new_status = data.get("new_status")
-    update_task_status(decoded_value, new_status)
-    return "Status updated"
-
-@main_bp.route("/delete_task", methods=("POST",))
-def delete_task():
-    data = request.get_json()
-    encoded_value = data.get("encoded_value")
-    decoded_value = unencrypt_pwd(encoded_value)
-    delete_task_query(decoded_value)
-    return "Task deleted"
 
 @main_bp.route("/logout")
 def logout():

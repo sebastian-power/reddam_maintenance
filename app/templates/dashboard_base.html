@@ -87,16 +87,5 @@
     </form>
     <div id="delete-task" onclick="deleteTask()"><i class="fa-solid fa-trash-can" style="color: #000000;"></i>Delete Task</div>
 </div>
-<div id="assign-worker-prompt">
-    <div class="prompt-header">
-        <h2>Assign Task</h2>
-        <button id="exit" onclick="exitPrompt()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <form id="assign-worker-form" method="post">
-        {{ assign_worker_form.hidden_tag() }}
-        {{ assign_worker_form.worker() }}
-        <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
-        {{ assign_worker_form.submit() }}
-    </form>
-</div>
+{% block assignWorkerPopup %}{% endblock assignWorkerPopup %}
 {% endblock taskPopups %}

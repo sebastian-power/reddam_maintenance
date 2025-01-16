@@ -41,3 +41,7 @@ Admin: Pending (click on task and assign), not started (drag), in progress (drag
 Workers: Pending (click on task and self-assign), not started (drag own, see others), in progress (drag own, see others), done (drag own, see others)
 Members: See all sections, highlight tasks made by them
 
+Workers: Can't delete or edit tasks other than own, can only self-assign, can only change status of tasks being worked on by them
+Members: Can't delete or edit tasks other than own, can't assign, can't change status
+
+for this you only really need to change the renderTasks function for each page (have diff js script for diff pages with diff versions of the function)

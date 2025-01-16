@@ -12,7 +12,7 @@ function exitPrompt() {
 
 
 async function showTask(task_id_encrypted) {
-    const response = await fetch("/get_task", {
+    const response = await fetch("/api/get_task", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

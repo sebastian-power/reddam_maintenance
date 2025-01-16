@@ -3,3 +3,17 @@
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
 {% endblock script %}
+{% block assignWorkerPopup %}
+<div id="assign-worker-prompt">
+    <div class="prompt-header">
+        <h2>Assign Task</h2>
+        <button id="exit" onclick="exitPrompt()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="assign-worker-form" method="post">
+        {{ assign_worker_form.hidden_tag() }}
+        {{ assign_worker_form.worker() }}
+        <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+        {{ assign_worker_form.submit() }}
+    </form>
+</div>
+{% endblock assignWorkerPopup %}
