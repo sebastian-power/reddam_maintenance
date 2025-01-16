@@ -13,4 +13,10 @@ Create a file named `.env` in the root project directory with contents
 ```
 DB_PWD="root password here"
 DB_NAME="database to be used for project here"
+SECRET_KEY="generate some random letters and numbers here for csrf prevention"
+ROLE_PWD="password for admins to create an account"
+WRKR_PWD="password for workers to create an account"
+EMAIL="email to use to send notifications to users"
+EMAIL_APP_PWD="google app password"
 ```
+To create a google app password, navigate to [App Passwords - Google Account](https://myaccount.google.com/apppasswords) and create a new app password with whatever name you want. Paste the generated password into the env file at EMAIL_APP_PWD
