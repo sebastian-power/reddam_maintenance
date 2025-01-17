@@ -6,6 +6,7 @@ from flask import (
     session,
     request,
     jsonify,
+    Response
 )
 from app.forms import (
     SignupForm,
@@ -64,6 +65,7 @@ def unencrypt_pwd(pwd):
 api_bp = Blueprint("api", __name__)
 
 @api_bp.route("/get_task", methods=("POST",))
+@login_required
 def get_task():
     data = request.get_json()
     encoded_value = data.get("encoded_value")
@@ -73,6 +75,7 @@ def get_task():
 
 
 @api_bp.route("/get_tasks_sorted", methods=("POST",))
+@login_required
 def get_tasks_sorted():
     data = request.get_json()
     sort_method = data.get("sort_method")
@@ -80,11 +83,13 @@ def get_tasks_sorted():
     return jsonify({"tasks": tasks})
 
 @api_bp.route("/get_workers", methods=("POST",))
+@login_required
 def get_workers():
     workers = retrieve_workers()
     return jsonify({"worker_names": workers})
 
 @api_bp.route("/change_status_drag", methods=("POST",))
+@login_required
 def change_status_drag():
     data = request.get_json()
     encoded_value = data.get("encoded_value")
@@ -97,6 +102,7 @@ def change_status_drag():
     return "Status updated"
 
 @api_bp.route("/delete_task", methods=("POST",))
+@login_required
 def delete_task():
     data = request.get_json()
     encoded_value = data.get("encoded_value")
@@ -105,13 +111,18 @@ def delete_task():
     return "Task deleted"
 
 @api_bp.route("/assign_worker", methods=("POST",))
+@login_required
 def assign_worker():
-    data = request.get_json()
-    encoded_value = data.get("encoded_value")
-    decoded_value = unencrypt_pwd(encoded_value)
-    assign_task(decoded_value, current_user.user_id)
-    return "Worker assigned"
+    if current_user.role == "Admin" or current_user.role == "Worker":
+        data = request.get_json()
+        encoded_value = data.get("encoded_value")
+        decoded_value = unencrypt_pwd(encoded_value)
+        assign_task(decoded_value, current_user.user_id)
+        return "Worker assigned"
+    else:
+        return Response(status=403)
 
 @api_bp.route("/current_user", methods=("GET",))
+@login_required
 def current_user_api():
     return jsonify({"user_id": current_user.user_id})

@@ -14,5 +14,5 @@ class DevConfig(Config):
     TESTING = True
     WEBSITE_DOMAIN = "127.0.0.1"
 class ProdConfig(Config):
-    # For production (running final product)
+    WEBSITE_DOMAIN = ""
     pass
