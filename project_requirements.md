@@ -1,7 +1,6 @@
 # Requirement dotpoints from D'Souza
 - anybody can register (Admin, Worker, Member)
 - Have requirements for job
-    - Can have jobs and sub-jobs
 - Admin
     - Admin notified whenever there is new job requirement
     - Admin can login when they get notification and check what the new jobs are (must be highlighted)
