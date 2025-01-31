@@ -51,3 +51,5 @@ The four programming languages used were:
 - HTML5
 - CSS3
 - JS ES7+
+
+![image](https://github.com/user-attachments/assets/2c8842a3-c2f2-4e54-acb2-5ec06148e7dd)
