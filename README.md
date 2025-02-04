@@ -52,4 +52,31 @@ The four programming languages used were:
 - CSS3
 - JS ES7+
 
+## Context Diagram
+![RMS-1](https://github.com/user-attachments/assets/b70373f7-5dc8-423b-b863-9c7f7dcb62a5)
+
+## User Stories
+- As a school principal, I want everything in the school to be working properly, so that students and teachers can focus on learning and teaching
+- As a maintenance admin, I want to:
+  - Assign tasks to workers
+  - Let others create tasks
+  - Change information about my account if needed like my email or password
+  - Notify workers of when they recieve a task
+  - Be notified when there is a new task or when a task is completed to confirm and delete it
+  - So that that I can fulfill the requirement of keeping everything in the school working easily
+- As a maintenance worker, I want to:
+  - Assign tasks I can do to myself
+  - Change information about my account if needed like my email or password
+  - Keep a record of the tasks I am working on
+  - Be notified when I recieve a task or when a new task is created
+  - So that I can manage my workload easier
+- As a member of the school, I want to:
+  - Create maintenance tasks if something I use or see is not working
+  - Be updated on how the job is going
+  - Change information about my account if needed like my email or password
+  - So that I can keep everything in the school working so I can work unimpeded
+
+## Project Plan
 ![image](https://github.com/user-attachments/assets/2c8842a3-c2f2-4e54-acb2-5ec06148e7dd)
+
+
