@@ -79,4 +79,20 @@ The four programming languages used were:
 ## Project Plan
 ![image](https://github.com/user-attachments/assets/2c8842a3-c2f2-4e54-acb2-5ec06148e7dd)
 
+## Class Diagram of non-imported Classes
+![class_diagram drawio](https://github.com/user-attachments/assets/61103f01-6c1a-4768-ab6c-e2543389951c)
+
+## Database Schema Diagram
+![drawSQL-image-export-2025-02-05](https://github.com/user-attachments/assets/c4fd649d-d288-41c3-8abc-5a9ca83bc656)
+The below images were created by the "describe" command in the MySQL Shell for some extra detail:
+![image](https://github.com/user-attachments/assets/b09b8535-ddfd-47ed-b1f0-1c99b7bf21b2)
+![image](https://github.com/user-attachments/assets/5b686309-abaf-4b1c-8158-123ef45c8c71)
+
+## Approach to Development
+Firstly in the development process, the skeleton of the project was created. Then the development process followed a similar path to the user experience to ensure all functionalities of the previous pages could be used as they had existing functionality to build on top off. For example, the login page was developed before dashboard page so the dashboard page could send the user who requested the task to the server, and the dashboard could adapt to the role of the user. The general order of development went: signup -> login -> profile -> dashboard -> emails.
+
+## Object Oriented Programming
+By creating classes for each form, it was easier to render the forms in the jinja templates and to manage the post requests from the frontend in the backend as the structure of the form was already defined. The models.py file creates classes that allow the developer to manage classes like User and Task in the same way throughout the program, which means any time that data relating to users or tasks from the database is interacted with, it is through the User or Task model to make the program easier and more adaptable, allowing the developer to use some of the advantages of an ORM while still having the capability to use raw MySQL queries.
+
+
 
