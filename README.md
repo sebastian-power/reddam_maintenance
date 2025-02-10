@@ -94,5 +94,10 @@ Firstly in the development process, the skeleton of the project was created. The
 ## Object Oriented Programming
 By creating classes for each form, it was easier to render the forms in the jinja templates and to manage the post requests from the frontend in the backend as the structure of the form was already defined. The models.py file creates classes that allow the developer to manage classes like User and Task in the same way throughout the program, which means any time that data relating to users or tasks from the database is interacted with, it is through the User or Task model to make the program easier and more adaptable, allowing the developer to use some of the advantages of an ORM while still having the capability to use raw MySQL queries.
 
+## Data Dictionary
+
+## Noteable Design + Development Choices
+
+
 
 
