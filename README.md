@@ -77,6 +77,7 @@ The four programming languages used were:
   - So that I can keep everything in the school working so I can work unimpeded
 
 ## Project Plan
+Include images of actual chart
 ![image](https://github.com/user-attachments/assets/2c8842a3-c2f2-4e54-acb2-5ec06148e7dd)
 
 ## Class Diagram of non-imported Classes
@@ -98,6 +99,6 @@ By creating classes for each form, it was easier to render the forms in the jinj
 
 ## Noteable Design + Development Choices
 
-
+## UI Designs
 
 
