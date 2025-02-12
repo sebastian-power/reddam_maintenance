@@ -96,6 +96,9 @@ Firstly in the development process, the skeleton of the project was created. The
 By creating classes for each form, it was easier to render the forms in the jinja templates and to manage the post requests from the frontend in the backend as the structure of the form was already defined. The models.py file creates classes that allow the developer to manage classes like User and Task in the same way throughout the program, which means any time that data relating to users or tasks from the database is interacted with, it is through the User or Task model to make the program easier and more adaptable, allowing the developer to use some of the advantages of an ORM while still having the capability to use raw MySQL queries.
 
 ## Data Dictionary
+![image](https://github.com/user-attachments/assets/4e14c4a8-1f49-41f4-9c06-48a7398e07ba)
+![image](https://github.com/user-attachments/assets/b7453f2b-d9a8-427c-90d7-012ef348e731)
+![image](https://github.com/user-attachments/assets/36ffe8b9-d6bc-4b83-a144-cf78a67cb403)
 
 ## Noteable Design + Development Choices
 
