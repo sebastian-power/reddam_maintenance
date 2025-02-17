@@ -100,8 +100,22 @@ By creating classes for each form, it was easier to render the forms in the jinj
 ![image](https://github.com/user-attachments/assets/b7453f2b-d9a8-427c-90d7-012ef348e731)
 ![image](https://github.com/user-attachments/assets/36ffe8b9-d6bc-4b83-a144-cf78a67cb403)
 
-## Noteable Design + Development Choices
-
+## Designs of Major Algorithms
+Encryption algorithm that hides the task_id from the user, ensuring they cannot see the task_id for security reasons
+```
+return int(
+        int("".join([str(alphabet.index(char.lower())) for char in pwd ]))
+        / 13087137435673
+        )
+```
+User Authentication. Retrieves User object of user by email inputted by user trying to login, then checks the password inputted against the hash of the password stored in the database. If is the same, user is authenticated
+```
+user = find_user_by_email(email)
+    return user if user and bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8")) else None
+```
+Task Rendering Algorithm (JS)
 ## UI Designs
 
+## Test Plans
 
+## Major Issues faced
