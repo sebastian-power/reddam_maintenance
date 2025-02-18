@@ -122,6 +122,19 @@ Task Rendering Algorithm (JS)
 </ol>
 
 ## UI Designs
+### Dashboard
+![image](https://github.com/user-attachments/assets/e5fecfe9-6f9b-49b1-99e9-c419328ff6f3)
+### Profile
+![image](https://github.com/user-attachments/assets/5ce225b5-5dd2-491f-92b2-097c848f824f)
+### Log In
+![image](https://github.com/user-attachments/assets/80e0765b-d437-46a2-b1eb-c834e13dff56)
+### Sign Up
+![image](https://github.com/user-attachments/assets/cfa268d7-3d02-443c-b9b3-954977c266c1)
+### Add Task
+![image](https://github.com/user-attachments/assets/64d9f7c5-79d3-4b22-b1de-b50f3d56028b)
+### Edit Task
+![image](https://github.com/user-attachments/assets/005b349d-414d-4b36-b4b7-92e6cd0dd612)
+
 
 ## Test Plans
 
