@@ -135,7 +135,6 @@ Task Rendering Algorithm (JS)
 ### Edit Task
 ![image](https://github.com/user-attachments/assets/005b349d-414d-4b36-b4b7-92e6cd0dd612)
 
-
 ## Test Plans
 
 ## Major Issues faced
