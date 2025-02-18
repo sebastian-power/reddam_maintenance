@@ -114,6 +114,13 @@ user = find_user_by_email(email)
     return user if user and bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8")) else None
 ```
 Task Rendering Algorithm (JS)
+<ol>
+  <li>Retrieve list of tasks in JSON grouped by status from API</li>
+  <li>Loop through each status, then through each task in the status group</li>
+  <li>Generate HTML for task item and add to list of tasks to be rendered</li>
+  <li>Render tasks in specific status group, then clear list for next status group</li>
+</ol>
+
 ## UI Designs
 
 ## Test Plans
