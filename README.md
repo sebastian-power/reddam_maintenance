@@ -136,5 +136,6 @@ Task Rendering Algorithm (JS)
 ![image](https://github.com/user-attachments/assets/005b349d-414d-4b36-b4b7-92e6cd0dd612)
 
 ## Test Plans
+### IO Tables
 
 ## Major Issues faced
