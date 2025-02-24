@@ -136,5 +136,10 @@ Task Rendering Algorithm (JS)
 ![image](https://github.com/user-attachments/assets/005b349d-414d-4b36-b4b7-92e6cd0dd612)
 
 ## Test Plans
-
+### IO Table for renderSortedTasks JS
+![image](https://github.com/user-attachments/assets/7c1e4ee8-9ab0-4a58-8bad-85385784ad19)
+### IO Table for assignWorker JS
+![image](https://github.com/user-attachments/assets/3dee6f78-2db6-4e96-96c3-c5c680187185)
+### Tests 
+The tests located in the test folder test major algorithms in the project that include tests for change_status_drag, get_tasks_sorted, delete_task, get_workers, and assign_worker.
 ## Major Issues faced
