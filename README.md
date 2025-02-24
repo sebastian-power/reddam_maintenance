@@ -136,6 +136,10 @@ Task Rendering Algorithm (JS)
 ![image](https://github.com/user-attachments/assets/005b349d-414d-4b36-b4b7-92e6cd0dd612)
 
 ## Test Plans
-### IO Tables
+### IO Table for renderSortedTasks JS
+![image](https://github.com/user-attachments/assets/7c1e4ee8-9ab0-4a58-8bad-85385784ad19)
+### IO Table for assignWorker JS
+![image](https://github.com/user-attachments/assets/3dee6f78-2db6-4e96-96c3-c5c680187185)
+### Tests 
 
 ## Major Issues faced
