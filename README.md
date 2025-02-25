@@ -140,6 +140,6 @@ Task Rendering Algorithm (JS)
 ![image](https://github.com/user-attachments/assets/7c1e4ee8-9ab0-4a58-8bad-85385784ad19)
 ### IO Table for assignWorker JS
 ![image](https://github.com/user-attachments/assets/3dee6f78-2db6-4e96-96c3-c5c680187185)
-### Tests 
-The tests located in the test folder test major algorithms in the project that include tests for change_status_drag, get_tasks_sorted, delete_task, get_workers, and assign_worker.
+### Tests
+The tests located in the test folder test major algorithms in the project that include tests for various API endpoints of the application such as change_status_drag, get_tasks_sorted, delete_task, get_workers, and assign_worker. These methods were prioritised for testing because they are integral for the application's function. These methods also utilise various other modules in the code, so these modules need to work correctly for these functions to pass these tests. The provided tests in test_api.py cover various API endpoints of the application, ensuring that they function correctly and handle different scenarios. They use mock objects to simulate database interactions and other dependencies. Additionally, there are tests to verify that unauthorized access to these endpoints is appropriately restricted.
 ## Major Issues faced
