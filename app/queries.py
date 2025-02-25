@@ -2,7 +2,6 @@ import mysql.connector
 from .models import *
 import os
 import bcrypt
-from datetime import datetime
 
 
 def connect_db():

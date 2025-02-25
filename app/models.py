@@ -1,6 +1,5 @@
 from flask_login import UserMixin
 from datetime import datetime
-import math
 from random import choice
 
 class User(UserMixin):

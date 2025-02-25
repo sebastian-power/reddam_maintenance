@@ -5,7 +5,6 @@ from flask import (
     url_for,
     session,
     request,
-    jsonify,
 )
 from app.forms import (
     SignupForm,
@@ -23,9 +22,7 @@ from .queries import *
 from .emails import *
 import os
 import bcrypt
-import base64
 from datetime import datetime
-import json
 
 alphabet = [
         "a",

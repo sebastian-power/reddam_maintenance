@@ -54,7 +54,7 @@ def auth_client(app, test_client):
 
 @pytest.fixture
 def unauth_client(app, test_client):
-    user = TestUser(role='User')  # Create user with non-admin role
+    user = TestUser(role='Member')  # Create user with non-admin role
     with app.test_request_context():
         login_user(user)
     
