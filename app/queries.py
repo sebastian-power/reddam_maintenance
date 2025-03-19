@@ -153,7 +153,7 @@ def find_task_by_id(task_id: int) -> Task:
     task = cursor.fetchone()
     cursor.close()
     db.close()
-    return Task(task_id=task[0], title=task[1], description=task[2], requested_by_name=find_user_by_id(str(task[3])).username, status=task[4], assigned_to_name=find_user_by_id(str(task[5])).username if task[5] else None, created_at=task[6], due_by=task[7]) if task else None
+    return Task(task_id=task[0], title=task[1], description=task[2], requested_by=task[3], requested_by_name=find_user_by_id(str(task[3])).username, status=task[4], assigned_to_name=find_user_by_id(str(task[5])).username if task[5] else None, created_at=task[6], due_by=task[7]) if task else None
 
 def update_task_status(task_id: int, status: str):
     db, cursor = connect_db()
