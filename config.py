@@ -1,10 +1,12 @@
 import os
+import socket
 from dotenv import load_dotenv
 from datetime import timedelta
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
+os.environ["WEBSITE_DOMAIN"] = f"{socket.gethostbyname(socket.gethostname())}:5000"
 
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")
@@ -12,7 +14,5 @@ class Config:
 class DevConfig(Config):
     DEBUG = True
     TESTING = True
-    WEBSITE_DOMAIN = "127.0.0.1"
 class ProdConfig(Config):
-    WEBSITE_DOMAIN = ""
     pass

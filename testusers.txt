@@ -1,0 +1,14 @@
+Admin:
+- Username: testadmin
+- Email: sebastianrosspower@gmail.com
+- Password: testadminpwd
+
+Worker:
+- Username: testworker
+- Email: james.bradburn@reddamhouse.com.au
+- Password: testworkerpwd
+
+Member
+- Username: testmember
+- Email: sebastian.power@reddamhouse.com.au
+- Password: testmemberpwd

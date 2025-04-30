@@ -27,13 +27,14 @@ def send_forgot_pwd_email(email: str) -> str:
         msg["To"] = email
         msg["Subject"] = "Forgot Password"
         token = base64.urlsafe_b64encode(os.urandom(24)).decode("utf-8")
-        body = f"""<a href="127.0.0.1:5000/change_pwd_unauth?utkn={token}">Click here to reset your password</a>"""
+        body = f"""<a href="{os.getenv("WEBSITE_DOMAIN")}/change_pwd_unauth?utkn={token}">Click here to reset your password</a><p>If link does not work, use this: {os.getenv("WEBSITE_DOMAIN")}/change_pwd_unauth?utkn={token}"""
         msg.attach(MIMEText(body, "html"))
         connection.sendmail(
             from_addr=os.getenv("EMAIL"),
             to_addrs=email,
             msg=msg.as_string()
         )
+        print(f"Sent email to {email}")
         connection.quit()
     return token
 
@@ -44,7 +45,7 @@ def send_new_task_email(email: str, task: Task):
             msg["From"] = os.getenv("EMAIL")
             msg["To"] = email
             msg["Subject"] = f"New Task Pending - {task.title}"
-            body = f"""<h1>{task.title}</h1><p><b>Description:</b> {task.description}</p><p><b>Requested By:</b> {task.requested_by_name}</p><a href="127.0.0.1:5000/"><p>Click here to assign the task</p></a>(127.0.0.1:5000/ if link does not work)"""
+            body = f"""<h1>{task.title}</h1><p><b>Description:</b> {task.description}</p><p><b>Requested By:</b> {task.requested_by_name}</p><a href="{os.getenv("WEBSITE_DOMAIN")}/"><p>Click here to assign the task</p></a>({os.getenv("WEBSITE_DOMAIN")}/ if link does not work)"""
             msg.attach(MIMEText(body, "html"))
             connection.sendmail(
                 from_addr=os.getenv("EMAIL"),
@@ -59,7 +60,7 @@ def assigned_to_email(email: str, task: Task):
         msg["From"] = os.getenv("EMAIL")
         msg["To"] = email
         msg["Subject"] = f"Task Assigned - {task.title}"
-        body = f"""<h1>{task.title}</h1><p><b>Description:</b> {task.description}</p><a href="127.0.0.1:5000/"><p>Click here to view the task</p></a>(127.0.0.1:5000/ if link does not work)"""
+        body = f"""<h1>{task.title}</h1><p><b>Description:</b> {task.description}</p><a href="{os.getenv("WEBSITE_DOMAIN")}/"><p>Click here to view the task</p></a>({os.getenv("WEBSITE_DOMAIN")}/ if link does not work)"""
         msg.attach(MIMEText(body, "html"))
         connection.sendmail(
             from_addr=os.getenv("EMAIL"),
@@ -74,7 +75,7 @@ def task_completed_email(task: Task):
         msg["From"] = os.getenv("EMAIL")
         msg["To"] = find_user_by_id(task.requested_by).email
         msg["Subject"] = f"Task Completed - {task.title}"
-        body = f"""<h1>Task: "{task.title}" has been completed</h1><a href="127.0.0.1:5000/"><p>Click here to delete the task to confirm it has been completed</p></a>(127.0.0.1:5000/ if link does not work)"""
+        body = f"""<h1>Task: "{task.title}" has been completed</h1><a href="{os.getenv("WEBSITE_DOMAIN")}/"><p>Click here to delete the task to confirm it has been completed</p></a>({os.getenv("WEBSITE_DOMAIN")}/ if link does not work)"""
         msg.attach(MIMEText(body, "html"))
         connection.sendmail(
             from_addr=os.getenv("EMAIL"),
