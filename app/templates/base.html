@@ -13,6 +13,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='jquery/jquery-ui.min.css') }}">
     <script src="{{ url_for('static', filename='jquery/external/jquery/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='jquery/jquery-ui.min.js') }}"></script>
+    <script>
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+    </script>
     <title>{% block title %}{% endblock %} - Reddam Maintenance</title>
     {% block style_headers %}{% endblock style_headers %}
 </head>

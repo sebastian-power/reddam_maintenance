@@ -21,7 +21,7 @@ async function renderSortedTasks(sort_by) {
                 <div class="task-content" onclick="showTask('${task.task_id_encoded}')">
                     <h2 class="task-title">${task.title}</h2>
                     <div class="description">
-                        <p>${task.description}</p>
+                        <p>${escapeHTML(task.description)}</p>
                     </div>
                     <div class="due-date">
                         <p><i class="fa-solid fa-calendar-day" style="color: #585757; margin-right: 8px;"></i>${task.due_by_str}</p>
