@@ -17,9 +17,9 @@ from app.forms import (
     AssignWorkerForm
 )
 from flask_login import login_required, login_user, logout_user, current_user
-from app.models import User
-from .queries import *
-from .emails import *
+from app.models import User, Task
+from .queries import add_task, update_task, assign_task, find_user_by_name, find_task_by_id, authenticate_user, find_user_by_email, add_user, update_profile, add_token_to_db, find_token_in_db
+from .emails import send_new_task_email, assigned_to_email, send_forgot_pwd_email
 import os
 import bcrypt
 from datetime import datetime

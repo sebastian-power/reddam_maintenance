@@ -1,5 +1,5 @@
 import mysql.connector
-from .models import *
+from .models import User, Task
 import os
 import bcrypt
 
@@ -118,12 +118,12 @@ def update_profile(user_id: str, email: str = None, name: str = None, password: 
 def add_task(task: Task):
     db, cursor = connect_db()
     if task.due_by:
-        cursor.execute(f"""
+        cursor.execute("""
         INSERT INTO tasks(title, description, requested_by, status, created_at, due_by)
         VALUES(%s, %s, %s, %s, %s, %s)
         """, (task.title, task.description, task.requested_by, task.status, task.created_at, task.due_by))
     else:
-        cursor.execute(f"""
+        cursor.execute("""
         INSERT INTO tasks(title, description, requested_by, status, created_at)
         VALUES(%s, %s, %s, %s, %s)
         """, (task.title, task.description, task.requested_by, task.status, task.created_at))
@@ -147,7 +147,7 @@ def retrieve_tasks(sort_by: str = "due_by") -> dict:
 
 def find_task_by_id(task_id: int) -> Task:
     db, cursor = connect_db()
-    cursor.execute(f"""
+    cursor.execute("""
     SELECT * FROM tasks WHERE task_id = %s
     """, (task_id,))
     task = cursor.fetchone()
@@ -157,7 +157,7 @@ def find_task_by_id(task_id: int) -> Task:
 
 def update_task_status(task_id: int, status: str):
     db, cursor = connect_db()
-    cursor.execute(f"""
+    cursor.execute("""
     UPDATE tasks SET status = %s WHERE task_id = %s
     """, (status, task_id))
     db.commit()

@@ -5,8 +5,8 @@ from flask import (
     Response
 )
 from flask_login import login_required, current_user
-from .queries import *
-from .emails import *
+from .queries import find_task_by_id, retrieve_tasks, retrieve_workers, update_task_status, delete_task_query, assign_task
+from .emails import task_completed_email
 
 alphabet = [
         "a",
