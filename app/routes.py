@@ -23,6 +23,7 @@ from .emails import *
 import os
 import bcrypt
 from datetime import datetime
+import html
 
 alphabet = [
         "a",
@@ -75,9 +76,9 @@ def home_page():
         created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         due_by = add_task_form.due_by.data.strftime("%Y-%m-%d %H:%M:%S") if add_task_form.due_by.data else None
         new_task = Task(
-            title=title,
-            description=description,
-            requested_by=requested_by,
+            title=html.escape(title),
+            description=html.escape(description),
+            requested_by=html.escape(requested_by),
             status=status,
             created_at=created_at,
             due_by=due_by,
@@ -93,14 +94,14 @@ def home_page():
         due_by = edit_task_form.due_by_edit.data.strftime("%Y-%m-%d %H:%M:%S") if edit_task_form.due_by_edit.data else None
         new_task = Task(
             task_id=decoded_value,
-            title=title,
-            description=description,
+            title=html.escape(title),
+            description=html.escape(description),
             due_by=due_by,
         )
         update_task(new_task)
         return redirect(url_for("main.home_page"))
     if assign_worker_form.validate_on_submit():
-        worker = assign_worker_form.worker.data
+        worker = html.escape(assign_worker_form.worker.data)
         task_id_encrypted = request.form.get("task_id_encrypted")
         decoded_value = unencrypt_pwd(task_id_encrypted)
         assign_task(decoded_value, find_user_by_name(worker).user_id)
@@ -153,8 +154,8 @@ def login():
 def signup():
     form = SignupForm()
     if form.validate_on_submit():
-        name = form.name.data
-        email = form.email.data
+        name = html.escape(form.name.data)
+        email = html.escape(form.email.data)
         role = form.role.data
         role_pwd = form.role_pwd.data
         hashed_password = bcrypt.hashpw(
@@ -179,8 +180,8 @@ def signup():
 def profile():
     form = EditProfileForm()
     if form.validate_on_submit():
-        name = form.name.data
-        email = form.email.data
+        name = html.escape(form.name.data)
+        email = html.escape(form.email.data)
         if name != current_user.username:
             update_profile(current_user.user_id, name=name)
         if email != current_user.email:

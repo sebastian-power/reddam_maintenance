@@ -21,7 +21,7 @@ async function renderSortedTasks(sort_by) {
                 <div class="task-content" onclick="showTask('${task.task_id_encoded}')">
                     <h2 class="task-title">${task.title}</h2>
                     <div class="description">
-                        <p>${escapeHTML(task.description)}</p>
+                        <p>${task.description}</p>
                     </div>
                     <div class="due-date">
                         <p><i class="fa-solid fa-calendar-day" style="color: #585757; margin-right: 8px;"></i>${task.due_by_str}</p>
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async function() {
                 .append(ui.draggable.css("position", "static"));
                 $(this).css("background", "transparent");
                 const onclickEnc = ui.draggable[0].onclick;
-                const encryptedTID = String(onclickEnc).split("showTask")[1].replace(/[()}'\n]/g, "");
+                const encryptedTID = String(onclickEnc).split("showTask")[1].replace(/[(}'\n]/g, "");
                 //get id of dropped location parent element
                 const status = $(this).parent().attr("id").split("-").slice(2).join(" ").toProperCase();
                 fetch("/api/change_status_drag", {
