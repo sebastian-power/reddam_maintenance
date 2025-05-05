@@ -11,6 +11,7 @@ os.environ["WEBSITE_DOMAIN"] = f"{socket.gethostbyname(socket.gethostname())}:50
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")
     REMEMBER_COOKIE_DURATION = timedelta(days=180)
+    SESSION_COOKIE_SAMESITE = "Strict"
 class DevConfig(Config):
     DEBUG = True
     TESTING = True

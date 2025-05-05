@@ -25,7 +25,6 @@ def create_app():
 
         client_ip = request.headers.get("X-Forwarded-For", request.remote_addr)
         user_agent = request.user_agent.string
-        headers = dict(request.headers)
 
         if request.content_length and request.content_length < 500:  # Avoid logging large bodies
             request_body = request.get_data(as_text=True)
