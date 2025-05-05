@@ -162,3 +162,5 @@ The date format was a considerable obstacle in this case due to the varying date
 - CSRF tokens in flask-wtforms
 - Session timeouts
 - SameSite cookies to protect API
+### Open Redirects
+- There is no redirect functionality in the app
