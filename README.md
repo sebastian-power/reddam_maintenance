@@ -27,8 +27,7 @@ EMAIL_APP_PWD="google app password"
 ```
 To create a google app password, navigate to [App Passwords - Google Account](https://myaccount.google.com/apppasswords) and create a new app password with whatever name you want. Paste the generated password into the env file at EMAIL_APP_PWD
 ## Creating Database
-In the root project directory, run the following command to create the database tables
-`python create_db.py`
+In the root project directory, run `python create_db.py` to create the database tables
 # Documentation
 ## Project Overview
 The Reddam Maintenance System is a web-based task management system that allows users to create, assign, and manage tasks, with features for user authentication and email notifications.
