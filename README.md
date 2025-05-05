@@ -152,3 +152,13 @@ The render tasks algorithm involved dynamic generation of HTML with event handle
 Managing drag, drop, and hover events using the jQuery library was rather difficult considering the lack of work I had done with it before and its unique approach to event management, but seeing examples and looking at the documentation helped to overcome this issue. Managing each of these event handlers while they were in an asynchronous function also added a layer of complexity.
 ### Retrieving task data when task was clicked on in dashboard
 The date format was a considerable obstacle in this case due to the varying date formats in JavaScript and its conflict with the default SQL DATETIME format and the datetime element accepted format. This was fixed with relatively simple string manipulation and checking required inputs for the datetime element. The form also had to be dynamically populated, including the encrypted task id hidden input.
+## Security
+### SQL Injection Prevention
+- Parametrised queries in Python
+### XSS Attack Prevention
+- Used Jinja2 templating, which auto-escapes anything passed to the template from the backend through Python
+- Used DOM API to escape HTML in JavaScript task rendering algorithm
+### CSRF Prevention
+- CSRF tokens in flask-wtforms
+- Session timeouts
+- SameSite cookies to protect API
