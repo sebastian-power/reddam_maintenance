@@ -167,3 +167,5 @@ The date format was a considerable obstacle in this case due to the varying date
 ### Session Mismanagement
 - No Session IDs are passed in URLs or POST variables
 - Sessions timeout eventually
+### Information Leakage
+- 
