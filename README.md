@@ -153,33 +153,56 @@ Managing drag, drop, and hover events using the jQuery library was rather diffic
 ### Retrieving task data when task was clicked on in dashboard
 The date format was a considerable obstacle in this case due to the varying date formats in JavaScript and its conflict with the default SQL DATETIME format and the datetime element accepted format. This was fixed with relatively simple string manipulation and checking required inputs for the datetime element. The form also had to be dynamically populated, including the encrypted task id hidden input.
 ## Security
-### SQL Injection Prevention
+
+## Unsecure PWA Task
+### Overview
+Our approach to the technical analysis of the security of the Reddam Maintenance app involved the use of GitHub's inbuilt tools Dependabot and CodeQL, and a scan of most likely and common web security vulnerabilities by looking at relevant parts of the codebase.
+### Out-of-scope privacy and security issues
+- **Privacy**:
+  - Username's will always be visible on the app due to functionality requirements, so user's are encouraged to pick a username that is better suited for this
+- **Security**:
+  - No strong organisation behind web app
+  - No HTTPS as is on web server
+  - More advanced DDoS attacks (server infrastructure cannot deal with it)
+  - Third-party dependencies: Dependabot exposed a security flaw that was patched in a later version of a dependency, which was later updated. There is currrently an outstanding security issue with jQuery that doesn't have an effect on the web app.
+  - Client-side security: We cannot force clients to use particular secure networks or applications so they are vulnerable to their account information being stolen
+  - Social engineering
+  - No encryption for emails from smptlib could result in interception
+Some security issues must also be tested for in a production environment, which hasn't occured yet
+### Discovered security issues
+#### SQL Injection Prevention
 - Parametrised queries in Python
   - Implemented in queries.py in every function that takes parameters
-### XSS Attack Prevention
+- Potential impact: Would allow users to get task and user information they are unauthorised to access
+#### XSS Attack Prevention
 - Used Jinja2 templating, which auto-escapes anything passed to the template from the backend through Python
   - All initial frontend pages rendered through Jinja2, implemented in /templates
 - Used DOM API to escape HTML in JavaScript task rendering algorithm
   - html.escape is used for user inputs in backend files (/routes.py)
-### CSRF Prevention
+- Potential impact: Would allow malicious actors to execute JavaScript snippets in a client's browser
+#### CSRF Prevention
 - CSRF tokens in flask-wtforms
   - form.hidden_tag rendered in Jinja2 templates
 - Session timeouts
   - Set in config.py
 - SameSite cookies to protect API
   - Set in config.py, API may be accessed as no csrf token so SameSite cookies necessary
-### Open Redirects
-- There is no redirect functionality in the app
-### Session Mismanagement
+- Potential impact: Would allow malicious actors to make requests on behalf of an authorised user
+#### Open Redirects
+- There is no redirect functionality in the app so not applicable
+#### Session Mismanagement
 - No Session IDs are passed in URLs or POST variables
 - Sessions timeout eventually
   - Set in config.py
-### Information Leakage
+- Potential impact: Malicious actors may be able to "steal" user sessions and perform actions on their behalf
+#### Information Leakage
 - Routes are used for api and main website
   - Route decorators used in api.py and routes.py
 - The whole project is public on GitHub so not much I can do
-### Password Security
+- Potential impact: Would allow malicious actors to get information on how a server operates, allowing them to plan an attack better
+#### Password Security
 - Secure forgot password system
   - Random tokens are obtained by generating random characters and base64 encoding them
 - Password strength requirements
   - Uses password_strength library (PasswordPolicy class)
+- Potential impact: Would allow malicious actors to more easily get hold of a user's passwords, meaning they can perform actions on their behalf
