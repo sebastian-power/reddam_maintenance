@@ -155,21 +155,31 @@ The date format was a considerable obstacle in this case due to the varying date
 ## Security
 ### SQL Injection Prevention
 - Parametrised queries in Python
+  - Implemented in queries.py in every function that takes parameters
 ### XSS Attack Prevention
 - Used Jinja2 templating, which auto-escapes anything passed to the template from the backend through Python
+  - All initial frontend pages rendered through Jinja2, implemented in /templates
 - Used DOM API to escape HTML in JavaScript task rendering algorithm
+  - html.escape is used for user inputs in backend files (/routes.py)
 ### CSRF Prevention
 - CSRF tokens in flask-wtforms
+  - form.hidden_tag rendered in Jinja2 templates
 - Session timeouts
+  - Set in config.py
 - SameSite cookies to protect API
+  - Set in config.py, API may be accessed as no csrf token so SameSite cookies necessary
 ### Open Redirects
 - There is no redirect functionality in the app
 ### Session Mismanagement
 - No Session IDs are passed in URLs or POST variables
 - Sessions timeout eventually
+  - Set in config.py
 ### Information Leakage
 - Routes are used for api and main website
+  - Route decorators used in api.py and routes.py
 - The whole project is public on GitHub so not much I can do
 ### Password Security
 - Secure forgot password system
+  - Random tokens are obtained by generating random characters and base64 encoding them
 - Password strength requirements
+  - Uses password_strength library (PasswordPolicy class)
