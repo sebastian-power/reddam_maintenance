@@ -28,6 +28,7 @@ msgpack==1.1.0
 mysql-connector-python==9.1.0
 ordered-set==4.1.0
 packaging==24.2
+password-strength==0.0.3.post2
 pluggy==1.5.0
 Pygments==2.19.1
 pytest==8.3.4

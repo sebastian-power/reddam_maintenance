@@ -24,6 +24,14 @@ import os
 import bcrypt
 from datetime import datetime
 import html
+from password_strength import PasswordPolicy
+
+policy = PasswordPolicy.from_names(
+    length=9,
+    uppercase=1,
+    numbers=1,
+    special=1
+)
 
 alphabet = [
         "a",
@@ -158,6 +166,9 @@ def signup():
         email = html.escape(form.email.data)
         role = form.role.data
         role_pwd = form.role_pwd.data
+        test = policy.test(form.password.data)
+        if test:
+            return render_template("signup.html", form=form, error=test)
         hashed_password = bcrypt.hashpw(
             form.password.data.encode("utf-8"), bcrypt.gensalt()
         ).decode("utf-8")
