@@ -168,4 +168,8 @@ The date format was a considerable obstacle in this case due to the varying date
 - No Session IDs are passed in URLs or POST variables
 - Sessions timeout eventually
 ### Information Leakage
-- 
+- Routes are used for api and main website
+- The whole project is public on GitHub so not much I can do
+### Password Security
+- Secure forgot password system
+- Password strength requirements
