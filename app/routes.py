@@ -18,7 +18,7 @@ from app.forms import (
 )
 from flask_login import login_required, login_user, logout_user, current_user
 from app.models import User, Task
-from .queries import add_task, update_task, assign_task, find_user_by_name, find_task_by_id, authenticate_user, find_user_by_email, add_user, update_profile, add_token_to_db, find_token_in_db
+from .queries import add_task, update_task, assign_task, find_user_by_name, find_task_by_id, authenticate_user, find_user_by_email, add_user, update_profile, add_token_to_db, find_token_in_db, delete_forgot_token
 from .emails import send_new_task_email, assigned_to_email, send_forgot_pwd_email
 import os
 import bcrypt
@@ -219,6 +219,9 @@ def change_pwd_unauth():
         email_for_token = find_token_in_db(token)
         if email_for_token:
             update_profile(find_user_by_email(email_for_token).user_id, password=newpwd)
+            delete_forgot_token(token)
+        else:
+            return "Invalid token"
         return redirect(url_for("main.login"))
     if email_for_token:
         return render_template("change_password.html", form=form)

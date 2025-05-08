@@ -213,6 +213,15 @@ def update_task(new_task: Task):
     cursor.close()
     db.close()
 
+def delete_forgot_token(token: str):
+    db, cursor = connect_db()
+    cursor.execute("""
+    DELETE FROM tokens WHERE token = %s
+    """, (token,))
+    db.commit()
+    cursor.close()
+    db.close()
+
 def retrieve_workers() -> list[str]:
     db, cursor = connect_db()
     cursor.execute("""
