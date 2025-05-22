@@ -206,3 +206,56 @@ Some security issues must also be tested for in a production environment, which 
 - Password strength requirements
   - Uses password_strength library (PasswordPolicy class)
 - Potential impact: Would allow malicious actors to more easily get hold of a user's passwords, meaning they can perform actions on their behalf
+
+## 🔐 Recommendations for Reddam House Security & Privacy by Design Approach
+
+To align with best practices in modern web development and ensure resilience, Reddam House should adopt a security-by-design and privacy-by-design philosophy. Below are structured recommendations to improve trust, minimise risk, and safeguard user and system data:
+
+### 🌐 Web & Transport Security
+- **Enforce HTTPS** using HSTS across all deployments to prevent data interception.
+- Configure standard **HTTP security headers**:
+  - `Content-Security-Policy`
+  - `X-Frame-Options`
+  - `Referrer-Policy`
+- Consider using a **reverse proxy with TLS** (e.g., NGINX with Certbot) for secure serving.
+### 🔐 Authentication & Password Management
+- Integrate **two-factor authentication (2FA)** using TOTP or email/SMS.
+- Store secrets and credentials securely in a `.env` file (never hardcoded in source code).
+### 👤 Privacy by Design
+- **Obscure usernames** in UI and URLs to reduce the risk of information leakage.
+  - Use unique, non-identifiable user IDs instead.
+- Apply **data minimisation**:
+  - Only collect fields necessary for system function.
+  - Avoid sensitive PII unless essential.
+- Establish **data retention policies**:
+  - Archive or auto-delete old reports (e.g., 6–12 months after resolution).
+- Publish a simple **privacy statement** explaining what data is collected and how it’s used.
+### ✉️ Email and Communication Security
+- Transition to a secure email provider (e.g., Mailgun, SendGrid) supporting **TLS encryption**.
+- Sign or authenticate outgoing messages to prevent spoofing (SPF, DKIM, DMARC).
+### 🧱 Infrastructure & Network Protection
+- Use **Cloudflare**, **AWS WAF**, or similar services for basic **DDoS protection** and request filtering.
+- Add **rate limiting and throttling** at the API or reverse proxy layer to prevent abuse.
+- Deploy services behind a **load balancer** for resilience under load.
+- Monitor for **anomalous usage patterns** using runtime logging or alerts.
+### 🧪 Secure Coding & Production Readiness
+- Sanitize all user input to prevent injection attacks (SQL, XSS, etc.).
+- Conduct **security-focused code reviews** and integrate tools like:
+  - ESLint (JavaScript)
+  - Bandit (Python)
+  - SonarQube (multi-language)
+- Use automated **static analysis and vulnerability scanning** in CI/CD pipelines.
+### 🧩 Dependency & Build Pipeline Security
+- Continue using tools like `dependabot` to monitor outdated or vulnerable packages.
+- Lock versions via `package-lock.json` or `pip freeze` to prevent unexpected changes.
+- Scan containers and dependencies using:
+  - `Trivy`
+  - `Snyk`
+  - `npm audit`
+- Keep third-party libraries updated regularly and track advisories.
+### 🔍 Security Testing and Monitoring
+- Perform **penetration testing** or **vulnerability assessments** prior to major releases.
+- Test security functionality (e.g., authentication, access controls) **in a production-like environment**.
+- Maintain a centralised, secure **logging system** to track access and changes to data.
+
+By following these security and privacy-by-design practices, Reddam House will create a more robust, trustworthy, and responsible platform suitable for modern operational needs.
