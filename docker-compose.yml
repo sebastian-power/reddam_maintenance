@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "5000:5000"
+  db:
+    image: "mysql:8"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: rm_db
+      MYSQL_USER: rm_usr
+      MYSQL_PASSWORD: rmusrpwd
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:

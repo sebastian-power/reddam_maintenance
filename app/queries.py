@@ -6,8 +6,8 @@ import bcrypt
 
 def connect_db():
     dbtemp = mysql.connector.connect(
-                host="localhost",
-                user="root",
+                host=os.getenv("DB_HOST"),
+                user=os.getenv("DB_USR"),
                 password=os.getenv("DB_PWD"),
                 database=os.getenv("DB_NAME")
             )
